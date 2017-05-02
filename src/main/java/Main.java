@@ -2,7 +2,6 @@ import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
 import com.codecool.shop.controller.ProductController;
-import com.codecool.shop.controller.SupplierController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.model.*;
@@ -29,12 +28,17 @@ public class Main {
         get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
         // Equivalent with above
         get("/index", (Request req, Response res) -> {
-           return new ThymeleafTemplateEngine().render( ProductController.renderProducts(req, res) );
+            return new ThymeleafTemplateEngine().render( ProductController.renderProducts(req, res) );
         });
-        // Supplier view
-        get("/supplier", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( SupplierController.renderProducts(req, res) );
+        get("/category/:id", (Request req, Response res) -> {
+            int categoryID = Integer.parseInt(req.params(":id"));
+            return new ThymeleafTemplateEngine().render( ProductController.renderProductsbyCategory(req, res, categoryID) );
         });
+        get("/supplier/:id", (Request req, Response res) -> {
+            int supplierID = Integer.parseInt(req.params(":id"));
+            return new ThymeleafTemplateEngine().render( ProductController.renderProductsbySupplier(req, res, supplierID) );
+        });
+
 
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
@@ -55,12 +59,20 @@ public class Main {
         //setting up a new product category
         ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.");
         productCategoryDataStore.add(tablet);
-
+        ProductCategory phone = new ProductCategory("Phone", "Hardware", "Moblie phones. Your mother can ask you what you eaten for lunch through these devices.");
+        productCategoryDataStore.add(phone);
+        ProductCategory notebook = new ProductCategory("Notebook", "Hardware", "Like a tablet but with keyboard");
+        productCategoryDataStore.add(notebook);
 
         //setting up products and printing it
         productDataStore.add(new Product("Amazon Fire", 49.9f, "USD", "Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.", tablet, amazon));
         productDataStore.add(new Product("Lenovo IdeaPad Miix 700", 479, "USD", "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.", tablet, lenovo));
         productDataStore.add(new Product("Amazon Fire HD 8", 89, "USD", "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", tablet, amazon));
+
+        //test products
+        productDataStore.add(new Product("AsadHD 8", 89, "USD", "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", notebook, amazon));
+        productDataStore.add(new Product("Amazon Fisadare HD 8", 89, "USD", "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", phone, amazon));
+
 
     }
 
