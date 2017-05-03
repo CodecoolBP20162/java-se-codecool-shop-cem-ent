@@ -38,6 +38,12 @@ public class Main {
             int supplierID = Integer.parseInt(req.params(":id"));
             return new ThymeleafTemplateEngine().render( ProductController.renderProductsbySupplier(req, res, supplierID) );
         });
+        get("/addtocart/:id", (Request req, Response res) -> {
+            int addedProductId = Integer.parseInt(req.params(":id"));
+            ProductController.renderProducts()
+            req.session().attribute()
+                });
+
 
 
         // Add this line to your project to enable the debug screen
