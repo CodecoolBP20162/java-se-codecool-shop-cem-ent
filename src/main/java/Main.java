@@ -5,6 +5,7 @@ import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.model.*;
+import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
@@ -28,6 +29,7 @@ public class Main {
         get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
         // Equivalent with above
         get("/index", (Request req, Response res) -> {
+            req.session(true);
             return new ThymeleafTemplateEngine().render( ProductController.renderProducts(req, res) );
         });
         get("/category/:id", (Request req, Response res) -> {
@@ -38,11 +40,22 @@ public class Main {
             int supplierID = Integer.parseInt(req.params(":id"));
             return new ThymeleafTemplateEngine().render( ProductController.renderProductsbySupplier(req, res, supplierID) );
         });
+
         get("/addtocart/:id", (Request req, Response res) -> {
+
             int addedProductId = Integer.parseInt(req.params(":id"));
-            ProductController.renderProducts()
-            req.session().attribute()
-                });
+            ProductDao productDataStore = ProductDaoMem.getInstance();
+            CartDao cartDataStore = CartDaoMem.getInstance();
+
+
+            LineItem lineItemCandidate = new LineItem(productDataStore.find(addedProductId));
+
+            cartDataStore.add(lineItemCandidate);
+            System.out.println(cartDataStore.getAll().get(0).getId());
+            req.session().attribute("cart", cartDataStore.toString());
+            return null;
+
+        });
 
 
 

@@ -31,17 +31,6 @@ public class ProductController {
         return new ModelAndView(params, "product/index");
     }
 
-    public static ModelAndView renderProductsbyID(Request req, Response res, int productID) {
-        ProductDao productDataStore = ProductDaoMem.getInstance();
-
-        Map params = new HashMap<>();
-
-        params.put("products", productDataStore.getBy(productDataStore.find(productID)));
-        return new ModelAndView(params, "product/index");
-    }
-
-
-
     public static ModelAndView renderProductsbyCategory(Request req, Response res, int categoryID) {
         ProductDao productDataStore = ProductDaoMem.getInstance();
         SupplierDao productSupplierDataStore = SupplierDaoMem.getInstance();

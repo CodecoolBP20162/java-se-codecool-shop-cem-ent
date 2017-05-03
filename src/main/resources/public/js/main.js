@@ -8,6 +8,17 @@ function cartAdder() {
         var idProd = idToCart.slice(8);
         alert(idProd);
         toSession(idProd);
+        $.ajax({
+            url: '/addtocart/' + idProd,
+            type: 'GET',
+            success: function () {
+                cartAdder()
+            },
+            error: function () {
+                console.log("Error")
+            }
+
+        })
 
     })
 
@@ -34,6 +45,8 @@ function toSession(idProd) {
 
 
 $(document).ready(function () {
+
     cartAdder();
+
 
 });
