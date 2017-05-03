@@ -5,11 +5,13 @@ function cartAdder() {
 
     $(".add-to-cart").click(function insertToCart() {
         var idToCart = this.getAttribute("id");
-        var idProd = idToCart.slice(8);
-        alert(idProd);
+        var pureId = idToCart.slice(8);
+        var idProd =JSON.parse(pureId);
+
         toSession(idProd);
 
-    })
+
+        })
 
 }
 
@@ -34,6 +36,8 @@ function toSession(idProd) {
 
 
 $(document).ready(function () {
+
     cartAdder();
+
 
 });
