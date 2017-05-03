@@ -42,7 +42,7 @@ public class Main {
         });
 
         get("/addtocart/:id", (Request req, Response res) -> {
-
+            req.session(true);
             int addedProductId = Integer.parseInt(req.params(":id"));
             ProductDao productDataStore = ProductDaoMem.getInstance();
             CartDao cartDataStore = CartDaoMem.getInstance();
@@ -51,8 +51,9 @@ public class Main {
             LineItem lineItemCandidate = new LineItem(productDataStore.find(addedProductId));
 
             cartDataStore.add(lineItemCandidate);
-            System.out.println(cartDataStore.getAll().get(0).getId());
-            req.session().attribute("cart", cartDataStore.toString());
+            System.out.println(cartDataStore.getAll().size());
+            System.out.println(cartDataStore.getAll().toString());
+            req.session().attribute(lineItemCandidate.toString(), lineItemCandidate.toString());
             return null;
 
         });

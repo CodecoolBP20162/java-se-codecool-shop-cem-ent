@@ -9,10 +9,11 @@ public class LineItem {
     int id;
 
     public LineItem(Product product) {
-        this.id = 99999;
+        this.id = 0;
         this.product = product;
         this.quantity = quantity;
         this.price = product.getDefaultPrice() * quantity;
+        id++;
     }
 
     public int getQuantity() {
