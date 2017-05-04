@@ -3,7 +3,7 @@
 
 <div th:replace="head :: copy"></div>
 <body>
-
+<p th:text="${session.name}" th:unless="${session == null}"><a href="/">Login</a></p>
 <div class="jumbotron text-center">
     <h1>Codecool Shop</h1>
 </div>

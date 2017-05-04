@@ -60,11 +60,11 @@ public class Main {
 
         get("/welcome",(Request req, Response res) -> {
             //login page needed.
-                })
+                });
 
         post("/welcome",(Request req, Response res) -> {
             //loginpage redirect if logged in.
-        })
+        });
 
                 //html template will need to be written.
         //class for storing session needs to be written.
