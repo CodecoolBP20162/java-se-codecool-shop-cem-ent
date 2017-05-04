@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="head :: copy"></div>
+<body>
+<h1>CART</h1>
+
+<div id="products" class="row list-group">
+
+    <div class="item col-xs-4 col-lg-4" th:each="lineItem,iterStat : ${lineitems}">
+        <div class="thumbnail">
+
+                <p class="group inner list-group-item-text" th:text="${lineItem.quantity}">Product
+                    description... </p>
+
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+
+
+
+</body>
+</html>

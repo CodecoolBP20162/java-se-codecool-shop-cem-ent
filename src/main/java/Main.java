@@ -29,16 +29,35 @@ public class Main {
 
         get("/index", (Request req, Response res) -> {
             req.session(true);
-            return new ThymeleafTemplateEngine().render( ProductController.renderProducts(req, res) );
+            return new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res));
 
         });
+
+
+        get("/cartview", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(CartController.renderCart(req, res));
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         get("/category/:id", (Request req, Response res) -> {
             int categoryID = Integer.parseInt(req.params(":id"));
-            return new ThymeleafTemplateEngine().render( ProductController.renderProductsbyCategory(req, res, categoryID) );
+            return new ThymeleafTemplateEngine().render(ProductController.renderProductsbyCategory(req, res, categoryID));
         });
         get("/supplier/:id", (Request req, Response res) -> {
             int supplierID = Integer.parseInt(req.params(":id"));
-            return new ThymeleafTemplateEngine().render( ProductController.renderProductsbySupplier(req, res, supplierID) );
+            return new ThymeleafTemplateEngine().render(ProductController.renderProductsbySupplier(req, res, supplierID));
         });
 
         get("/addtocart/:id", (Request req, Response res) -> {
@@ -56,7 +75,6 @@ public class Main {
         });
 
 
-
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
     }
@@ -72,7 +90,7 @@ public class Main {
         supplierDataStore.add(amazon);
         Supplier lenovo = new Supplier("Lenovo", "Computers");
         supplierDataStore.add(lenovo);
-        Supplier apple = new Supplier("Apple","Luxury products");
+        Supplier apple = new Supplier("Apple", "Luxury products");
         supplierDataStore.add(apple);
         Supplier microsoft = new Supplier("Microsoft", "IT products");
         supplierDataStore.add(microsoft);
