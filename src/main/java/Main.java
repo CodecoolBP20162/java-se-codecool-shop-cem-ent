@@ -1,6 +1,7 @@
 import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
+import com.codecool.shop.controller.CartController;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
@@ -21,14 +22,15 @@ public class Main {
         // populate some data for the memory storage
         populateData();
 
-        // Always start with more specific routes
-        get("/hello", (req, res) -> "Hello World");
 
         // Always add generic routes to the end
         get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
         // Equivalent with above
+
         get("/index", (Request req, Response res) -> {
+            req.session(true);
             return new ThymeleafTemplateEngine().render( ProductController.renderProducts(req, res) );
+
         });
         get("/category/:id", (Request req, Response res) -> {
             int categoryID = Integer.parseInt(req.params(":id"));
@@ -38,6 +40,21 @@ public class Main {
             int supplierID = Integer.parseInt(req.params(":id"));
             return new ThymeleafTemplateEngine().render( ProductController.renderProductsbySupplier(req, res, supplierID) );
         });
+
+        get("/addtocart/:id", (Request req, Response res) -> {
+            CartController.addItemToCart(req);
+
+            //test print
+            Cart vmi = req.session().attribute("vmi");
+            vmi.getAll().forEach(lineItem -> {
+                System.out.println(lineItem.getProduct().getName());
+                System.out.println(lineItem.getQuantity());
+                System.out.println(lineItem.getPrice());
+            });
+            return null;
+
+        });
+
 
 
         // Add this line to your project to enable the debug screen
@@ -75,6 +92,5 @@ public class Main {
 
 
     }
-
 
 }
