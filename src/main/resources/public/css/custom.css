@@ -8,6 +8,7 @@
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     border-radius: 0px;
+    height: 370px;
 }
 
 .thumbnail img {
@@ -79,5 +80,6 @@
     background-image: url("../resources/public/img/cart.svg");
 
 }
-
-
+.dropdown {
+    margin-bottom: 20px;
+}

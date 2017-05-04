@@ -3,8 +3,13 @@
 <div th:replace="head :: copy"></div>
 
 <body>
-<h1>CART</h1>
 
+
+<div class="jumbotron text-center">
+    <h1>Codecool Shop - Cart</h1>
+</div>
+
+<div class="container">
 <div id="products" class="row list-group">
 
     <div class="item col-xs-4 col-lg-4" th:each="lineItem,iterStat : ${lineitems}">
@@ -26,6 +31,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 
 
