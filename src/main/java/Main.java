@@ -64,12 +64,14 @@ public class Main {
             CartController.addItemToCart(req);
 
             //test print
-            Cart vmi = req.session().attribute("vmi");
+            Cart vmi = req.session().attribute("cart");
             vmi.getAll().forEach(lineItem -> {
                 System.out.println(lineItem.getProduct().getName());
                 System.out.println(lineItem.getQuantity());
                 System.out.println(lineItem.getPrice());
             });
+            System.out.println("SUM: " + vmi.getSum());
+            System.out.println("ALL QUANTITY: " + vmi.getAllQuantity());
             return null;
 
         });

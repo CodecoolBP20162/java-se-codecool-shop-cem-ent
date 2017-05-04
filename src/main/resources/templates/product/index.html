@@ -6,6 +6,7 @@
 <div th:replace="menu :: copy"></div>
 
 
+
 <div class="jumbotron text-center">
     <h1>Codecool Shop</h1>
 </div>
@@ -14,25 +15,28 @@
     <div class="row">
         <div class="col-lg-6">
             <div class="dropdown">
-                <button class="filter-btn btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Categories
+                <button class="filter-btn btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                    Categories
                     <span class="caret"></span></button>
                 <ul class="dropdown-menu">
-                    <li  th:each="cat : ${categories}"><a th:href="@{~/category/{path}(path=${cat.id})}"><strong th:text="${cat.name}">Category Title</strong></a></li>
+                    <li th:each="cat : ${categories}"><a th:href="@{~/category/{path}(path=${cat.id})}"><strong
+                            th:text="${cat.name}">Category Title</strong></a></li>
                 </ul>
             </div>
         </div>
 
         <div class="col-lg-6">
             <div class="dropdown">
-                <button class="filter-btn btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Suppliers
+                <button class="filter-btn btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                    Suppliers
                     <span class="caret"></span></button>
                 <ul class="dropdown-menu">
-                    <li  th:each="sup : ${suppliers}"><a th:href="@{~/supplier/{path}(path=${sup.id})}"><strong th:text="${sup.name}">Category Title</strong></a></li>
+                    <li th:each="sup : ${suppliers}"><a th:href="@{~/supplier/{path}(path=${sup.id})}"><strong
+                            th:text="${sup.name}">Category Title</strong></a></li>
                 </ul>
             </div>
         </div>
     </div>
-
 
 
     <div id="products" class="row list-group">
