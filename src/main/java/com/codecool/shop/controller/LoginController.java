@@ -26,12 +26,10 @@ public class LoginController {
             if (req.queryParams("password") == users.password) {
                 req.session(true);
                 req.session().attribute("user", req.queryParams("username"));
+                req.session().attribute("type", users.type;
+                res.redirect("/");
             }
         }
-        else{
-            return renderLogin(req, res);
-        }
-
-
+        return renderLogin(req, res);
     }
 }
