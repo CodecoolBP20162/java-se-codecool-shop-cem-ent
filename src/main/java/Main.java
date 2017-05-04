@@ -76,6 +76,7 @@ public class Main {
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+        UserDao userDataStore = UserDaoMem.getInstance();
 
         //setting up a new supplier
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
@@ -112,6 +113,9 @@ public class Main {
         productDataStore.add(new Software("Microsoft Office subscription", 99, "USD", "Microsoft Office is an office suite of applications, servers, and services developed by Microsoft.", softwares, microsoft, 12));
         productDataStore.add(new Parts("Battery for Iphone 7", 69, "USD", "New battery to replace Iphone 7's old battery.", softwares, apple));
 
+        //Setting up users
+        User admin = new User("admin", "admin", "admin Account");
+        userDataStore.add(admin);
 
     }
 
