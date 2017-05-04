@@ -2,6 +2,7 @@ package com.codecool.shop.controller;
 
 
 import com.codecool.shop.dao.implementation.UserDaoMem;
+import com.codecool.shop.model.User;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -21,12 +22,12 @@ public class LoginController {
 
     public static ModelAndView renderLoginPost(Request req, Response res){
         UserDaoMem userDataStore = UserDaoMem.getInstance();
-        Object users = userDataStore.getAll();
-        if (req.queryParams("username") == users.name){
-            if (req.queryParams("password") == users.password) {
+        User user = userDataStore.find(req.queryParams("username"));
+        if (req.queryParams("username").equals(user.getName())){
+            if (req.queryParams("password").equals(user.getPassword())) {
                 req.session(true);
                 req.session().attribute("user", req.queryParams("username"));
-                req.session().attribute("type", users.type;
+                req.session().attribute("type", user.getType());
                 res.redirect("/");
             }
         }

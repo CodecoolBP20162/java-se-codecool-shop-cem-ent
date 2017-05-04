@@ -26,7 +26,7 @@ public class User extends BaseModel {
         this.users.add(user);
     }
 
-    public String getpassword() {
+    public String getPassword() {
         return password;
     }
 

@@ -112,6 +112,8 @@ public class Main {
         //Setting up users
         User admin = new User("admin", "admin", "admin Account");
         userDataStore.add(admin);
+        User admin2 = new User("admin2", "admin2", "admin Account");
+        userDataStore.add(admin2);
 
     }
 
