@@ -1,21 +1,27 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="copy">
-<nav class="navigation">
-<div class="container">
-    <div class="row">
-        <div class="log-in-field col-lg-9 col-md-9 col-sm-9 col-xs-9">
+    <nav class="navigation">
+        <div class="container">
+            <div class="pull-left">
+                <a href="/" class="home-icon">
 
-        </div>
-        <div class="cart-field col-lg-3 col-md-3 col-sm-3 col-xs-3">
-            <div>
-                <div id="cart-counter"
-                        th:text="${numberOfProdutsInCart}"></div>
-                <button class="cartbutton"><a href="/cartview">Cart</a></button>
+                    <img src=""
+                         th:attr="src='/img/cement.jpg'" height="70" width="auto"></img></a>
             </div>
-        </div>
-    </div>
-</div>
-</nav>
+
+                <div class="cart-field pull-right">
+                    <div>
+
+
+                            <div id="cart-counter" class="col-lg-8"
+                                 th:text="${numberOfProdutsInCart}"></div>
+                            <a href="/cartview" class="cartbutton col-lg-4 pull-right "><span
+                                    class="glyphicon glyphicon glyphicon-shopping-cart"></span></a>
+                        </div>
+                    </div>
+                </div>
+
+    </nav>
 </div>
 </html>
