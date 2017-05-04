@@ -18,4 +18,20 @@ public class LoginController {
         params.put("users", userDataStore.getAll());
         return new ModelAndView(params, "login");
     }
+
+    public static ModelAndView renderLoginPost(Request req, Response res){
+        UserDaoMem userDataStore = UserDaoMem.getInstance();
+        Object users = userDataStore.getAll();
+        if (req.queryParams("username") == users.name){
+            if (req.queryParams("password") == users.password) {
+                req.session(true);
+                req.session().attribute("user", req.queryParams("username"));
+            }
+        }
+        else{
+            return renderLogin(req, res);
+        }
+
+
+    }
 }

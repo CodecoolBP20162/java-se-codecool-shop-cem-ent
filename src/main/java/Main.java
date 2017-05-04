@@ -57,22 +57,19 @@ public class Main {
 
         get("/login", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(LoginController.renderLogin(req, res));
-            });
-
-    }
-            /*
-        post("/welcome",(Request req, Response res) -> {
-
-            redirect.any("/welcome", "/")
         });
 
-                //html template will need to be written.
-        //class for storing session needs to be written.
+
+        post("/login", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(LoginController.renderLoginPost(req, res));
+        });
 
 
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
-        */
+
+    }
+
 
     public static void populateData() {
 
