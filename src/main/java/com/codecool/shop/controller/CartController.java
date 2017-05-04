@@ -31,15 +31,15 @@ public class CartController {
 
         cartDataStore.add(lineItemCandidate);
 
-        req.session().attribute("vmi", cartDataStore);
 
     }
 
     public static ModelAndView renderCart(Request req, Response res) {
         Cart cartDataStore = getCart(req);
 
-        Map<String, List<LineItem>> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("lineitems", cartDataStore.getAll());
+        params.put("sum", cartDataStore.getSum());
 
         return new ModelAndView(params, "cartview");
     }
@@ -48,7 +48,7 @@ public class CartController {
 
 
 
-    private static Cart getCart(Request req) {
+    public static Cart getCart(Request req) {
         Cart cart = req.session().attribute("cart");
         if (cart == null) {
             cart = new Cart();

@@ -42,15 +42,6 @@ public class Main {
 
 
 
-
-
-
-
-
-
-
-
-
         get("/category/:id", (Request req, Response res) -> {
             int categoryID = Integer.parseInt(req.params(":id"));
             return new ThymeleafTemplateEngine().render(ProductController.renderProductsbyCategory(req, res, categoryID));
@@ -62,19 +53,10 @@ public class Main {
 
         get("/addtocart/:id", (Request req, Response res) -> {
             CartController.addItemToCart(req);
-
-            //test print
-            Cart vmi = req.session().attribute("cart");
-            vmi.getAll().forEach(lineItem -> {
-                System.out.println(lineItem.getProduct().getName());
-                System.out.println(lineItem.getQuantity());
-                System.out.println(lineItem.getPrice());
-            });
-            System.out.println("SUM: " + vmi.getSum());
-            System.out.println("ALL QUANTITY: " + vmi.getAllQuantity());
             return null;
 
         });
+
 
 
         // Add this line to your project to enable the debug screen
