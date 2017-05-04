@@ -1,6 +1,8 @@
 /**
  * Created by szarazdenes on 2017. 05. 03..
  */
+
+
 function cartAdder() {
 
     $(".add-to-cart").click(function insertToCart() {
@@ -9,11 +11,9 @@ function cartAdder() {
         var idProd = JSON.parse(pureId);
 
         toSession(idProd);
-
     })
 
 }
-
 
 function toSession(idProd) {
     $.ajax({
@@ -25,9 +25,10 @@ function toSession(idProd) {
             $("#cart-counter").html(obj);
         },
         error: function () {
-            alert("Error")
+            console.log("Error")
         }
     });
+
 }
 
 $(document).ready(function () {

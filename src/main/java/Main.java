@@ -22,48 +22,33 @@ public class Main {
         // populate some data for the memory storage
         populateData();
 
-
         // Always add generic routes to the end
         get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
         // Equivalent with above
 
-        get("/index", (Request req, Response res) -> {
-            req.session(true);
-            return new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res));
+        get("/index", (Request req, Response res) ->
+            new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res))
+        );
 
-        });
+        get("/cartview", (Request req, Response res) ->
+            new ThymeleafTemplateEngine().render(CartController.renderCart(req, res))
+        );
 
+        get("/category/:id", (Request req, Response res) ->
+            new ThymeleafTemplateEngine().render(ProductController.renderProductsbyCategory(req, res))
+        );
 
-        get("/cartview", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(CartController.renderCart(req, res));
-        });
+        get("/supplier/:id", (Request req, Response res) ->
+            new ThymeleafTemplateEngine().render(ProductController.renderProductsbySupplier(req, res))
+        );
 
-
-
-
-
-        get("/category/:id", (Request req, Response res) -> {
-            int categoryID = Integer.parseInt(req.params(":id"));
-            return new ThymeleafTemplateEngine().render(ProductController.renderProductsbyCategory(req, res, categoryID));
-        });
-        get("/supplier/:id", (Request req, Response res) -> {
-            int supplierID = Integer.parseInt(req.params(":id"));
-            return new ThymeleafTemplateEngine().render(ProductController.renderProductsbySupplier(req, res, supplierID));
-        });
-
-        get("/addtocart/:id", (Request req, Response res) -> {
-            return CartController.addItemToCart(req, res);
-
-        });
-
-
+        get("/addtocart/:id", CartController::addItemToCart);
 
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
     }
 
-    public static void populateData() {
-
+    private static void populateData() {
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
@@ -90,7 +75,6 @@ public class Main {
         ProductCategory parts = new ProductCategory("Parts", "Parts", "Parts for different types of products.");
         productCategoryDataStore.add(parts);
 
-
         //setting up products and printing it
         productDataStore.add(new Hardware("Amazon Fire", 49.9f, "USD", "Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.", tablet, amazon, 12));
         productDataStore.add(new Hardware("Lenovo IdeaPad Miix 700", 479, "USD", "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.", tablet, lenovo, 12));
@@ -99,8 +83,5 @@ public class Main {
         productDataStore.add(new Hardware("Iphone 7", 899.9f, "USD", "Latest product of Apple.", phone, apple, 12));
         productDataStore.add(new Software("Microsoft Office subscription", 99.9f, "USD", "Microsoft Office is an office suite of applications, servers, and services developed by Microsoft.", softwares, microsoft, 12));
         productDataStore.add(new Parts("Battery for Iphone 7", 69.9f, "USD", "New battery to replace Iphone 7's old battery.", parts, apple));
-
-
     }
-
 }
