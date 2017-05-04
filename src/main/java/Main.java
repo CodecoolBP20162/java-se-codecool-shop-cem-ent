@@ -1,11 +1,11 @@
 import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
+import com.codecool.shop.controller.CartController;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.model.*;
-import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
@@ -22,15 +22,15 @@ public class Main {
         // populate some data for the memory storage
         populateData();
 
-        // Always start with more specific routes
-        get("/hello", (req, res) -> "Hello World");
 
         // Always add generic routes to the end
         get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
         // Equivalent with above
+
         get("/index", (Request req, Response res) -> {
             req.session(true);
             return new ThymeleafTemplateEngine().render( ProductController.renderProducts(req, res) );
+
         });
         get("/category/:id", (Request req, Response res) -> {
             int categoryID = Integer.parseInt(req.params(":id"));
@@ -42,18 +42,15 @@ public class Main {
         });
 
         get("/addtocart/:id", (Request req, Response res) -> {
-            req.session(true);
-            int addedProductId = Integer.parseInt(req.params(":id"));
-            ProductDao productDataStore = ProductDaoMem.getInstance();
-            CartDao cartDataStore = CartDaoMem.getInstance();
+            CartController.addItemToCart(req);
 
-
-            LineItem lineItemCandidate = new LineItem(productDataStore.find(addedProductId));
-
-            cartDataStore.add(lineItemCandidate);
-            System.out.println(cartDataStore.getAll().size());
-            System.out.println(cartDataStore.getAll().toString());
-            req.session().attribute(lineItemCandidate.toString(), lineItemCandidate.toString());
+            //test print
+            Cart vmi = req.session().attribute("vmi");
+            vmi.getAll().forEach(lineItem -> {
+                System.out.println(lineItem.getProduct().getName());
+                System.out.println(lineItem.getQuantity());
+                System.out.println(lineItem.getPrice());
+            });
             return null;
 
         });
@@ -95,6 +92,5 @@ public class Main {
 
 
     }
-
 
 }

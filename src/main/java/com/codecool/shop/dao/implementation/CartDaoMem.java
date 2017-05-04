@@ -2,14 +2,14 @@ package com.codecool.shop.dao.implementation;
 
 
 import com.codecool.shop.dao.CartDao;
-import com.codecool.shop.model.LineItem;
+import com.codecool.shop.model.Cart;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CartDaoMem implements CartDao{
 
-    private List<LineItem> DATA = new ArrayList<>();
+    private List<Cart> DATA = new ArrayList<>();
     private static CartDaoMem instance = null;
 
     private CartDaoMem() {}
@@ -24,23 +24,27 @@ public class CartDaoMem implements CartDao{
 
 
     @Override
-    public void add(LineItem lineItem) {
-        DATA.add(lineItem);
+    public void add(Cart cart) {
+        DATA.add(cart);
     }
 
     @Override
-    public LineItem find(int id) {
-//        return DATA.stream().filter(t -> t.getId == id).findFirst().orElse(null);
+    public Cart find(int id){
         return null;
     }
 
+    /*public Cart find(int id) {
+        return DATA.stream().filter(t -> t.getId == id).findFirst().orElse(null);
+        return null;}*/
+
+
     @Override
     public void remove(int id) {
-//        DATA.remove(find(id));
+        DATA.remove(find(id));
     }
 
     @Override
-    public List<LineItem> getAll() {
+    public List<Cart> getAll() {
         return DATA;
     }
 }
