@@ -50,8 +50,8 @@ public class Main {
         });
 
         get("/addtocart/:id", (Request req, Response res) -> {
-            CartController.addItemToCart(req);
-            return null;
+            System.out.println(CartController.addItemToCart(req, res));
+            return CartController.addItemToCart(req, res);
 
         });
 
