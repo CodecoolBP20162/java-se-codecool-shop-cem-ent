@@ -29,32 +29,52 @@ public class Main {
 
         get("/index", (Request req, Response res) -> {
             req.session(true);
-            return new ThymeleafTemplateEngine().render( ProductController.renderProducts(req, res) );
+            return new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res));
 
         });
+
+
+        get("/cartview", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(CartController.renderCart(req, res));
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         get("/category/:id", (Request req, Response res) -> {
             int categoryID = Integer.parseInt(req.params(":id"));
-            return new ThymeleafTemplateEngine().render( ProductController.renderProductsbyCategory(req, res, categoryID) );
+            return new ThymeleafTemplateEngine().render(ProductController.renderProductsbyCategory(req, res, categoryID));
         });
         get("/supplier/:id", (Request req, Response res) -> {
             int supplierID = Integer.parseInt(req.params(":id"));
-            return new ThymeleafTemplateEngine().render( ProductController.renderProductsbySupplier(req, res, supplierID) );
+            return new ThymeleafTemplateEngine().render(ProductController.renderProductsbySupplier(req, res, supplierID));
         });
 
         get("/addtocart/:id", (Request req, Response res) -> {
             CartController.addItemToCart(req);
 
             //test print
-            Cart vmi = req.session().attribute("vmi");
+            Cart vmi = req.session().attribute("cart");
             vmi.getAll().forEach(lineItem -> {
                 System.out.println(lineItem.getProduct().getName());
                 System.out.println(lineItem.getQuantity());
                 System.out.println(lineItem.getPrice());
             });
+            System.out.println("SUM: " + vmi.getSum());
+            System.out.println("ALL QUANTITY: " + vmi.getAllQuantity());
             return null;
 
         });
-
 
 
         // Add this line to your project to enable the debug screen
@@ -72,7 +92,7 @@ public class Main {
         supplierDataStore.add(amazon);
         Supplier lenovo = new Supplier("Lenovo", "Computers");
         supplierDataStore.add(lenovo);
-        Supplier apple = new Supplier("Apple","Luxury products");
+        Supplier apple = new Supplier("Apple", "Luxury products");
         supplierDataStore.add(apple);
         Supplier microsoft = new Supplier("Microsoft", "IT products");
         supplierDataStore.add(microsoft);

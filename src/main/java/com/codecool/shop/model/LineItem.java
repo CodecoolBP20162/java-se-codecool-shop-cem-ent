@@ -30,4 +30,9 @@ public class LineItem {
         this.quantity += 1;
     }
 
+    public void decreaseQuantity() {
+        this.quantity -= 1;
+    }
+
+    
 }
