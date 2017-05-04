@@ -1,7 +1,7 @@
 package com.codecool.shop.model;
 
 
-public class Hardware extends Product {
+public class Hardware extends Product implements Orderable {
 
     private int warranty;
 
@@ -9,4 +9,10 @@ public class Hardware extends Product {
         super(name, defaultPrice, currencyString, description, productCategory, supplier );
         this.warranty = warranty;
     }
+
+    @Override
+    public boolean inStock() {
+        return true;
+    }
+
 }
