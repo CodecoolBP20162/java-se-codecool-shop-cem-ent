@@ -15,5 +15,4 @@ public interface SoftwareDao {
     List<Software> getAll();
     List<Software> getBy(Supplier supplier);
     List<Software> getBy(ProductCategory productCategory);
-
 }

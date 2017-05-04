@@ -16,5 +16,4 @@ public interface HardwareDao {
     List<Hardware> getAll();
     List<Hardware> getBy(Supplier supplier);
     List<Hardware> getBy(ProductCategory productCategory);
-
 }

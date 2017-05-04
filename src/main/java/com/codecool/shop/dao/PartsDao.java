@@ -14,5 +14,4 @@ public interface PartsDao {
     List<Parts> getAll();
     List<Parts> getBy(Supplier supplier);
     List<Parts> getBy(ProductCategory productCategory);
-
 }

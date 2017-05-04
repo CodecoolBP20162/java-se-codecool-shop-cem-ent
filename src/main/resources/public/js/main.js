@@ -10,7 +10,6 @@ function cartAdder() {
 
         toSession(idProd);
 
-
         })
 
 }
@@ -19,13 +18,6 @@ function toSession(idProd) {
     $.ajax({
         url: '/addtocart/' + idProd,
         type: 'GET',
-        success: function () {
-            cartAdder()
-        },
-        error: function () {
-            console.log("Error")
-        }
-
     })
 
 }
