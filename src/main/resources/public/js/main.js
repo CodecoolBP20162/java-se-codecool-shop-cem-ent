@@ -10,7 +10,6 @@ function cartAdder() {
 
         toSession(idProd);
 
-
         })
 
 }
