@@ -14,17 +14,23 @@ function cartAdder() {
 
 }
 
+
 function toSession(idProd) {
     $.ajax({
         url: '/addtocart/' + idProd,
         type: 'GET',
-    })
+        async: true,
+        data: 'json',
+        success: function (data) {
+            var obj = data["numberOfProductsInCart"];
+            $("#cart-counter").html(obj);
+        },
+        error: function() {
+            alert("Error")
+        }
+    });
 
 }
-
-
-
-
 
 
 $(document).ready(function () {
