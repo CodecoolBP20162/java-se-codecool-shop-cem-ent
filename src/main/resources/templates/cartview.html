@@ -9,10 +9,21 @@
 
     <div class="item col-xs-4 col-lg-4" th:each="lineItem,iterStat : ${lineitems}">
         <div class="thumbnail">
-
-                <p class="group inner list-group-item-text" th:text="${lineItem.quantity}">Product
+            <img class="group list-group-image" src="http://placehold.it/400x250/000/fff"
+                 th:attr="src='/img/product_' + ${lineItem.getProduct().id} + '.jpg'" alt=""/>
+            <div class="caption">
+                <h4 class="group inner list-group-item-heading" th:text="${lineItem.getProduct().name}">Product name</h4>
+                <p class="group inner list-group-item-text" th:text="${lineItem.getProduct().description}">Product
                     description... </p>
-
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <p class="lead" th:text="${lineItem.quantity}">100 USD</p>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <p class="lead" th:text="${lineItem.getPrice()}">100 USD</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
