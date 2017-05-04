@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<div th:replace="head :: copy"></div>
 <head>
     <title>Login page</title>
 </head>
@@ -7,7 +8,7 @@
 <h1>Login page</h1>
 <p th:text="${session.name}" th:unless="${session == null}">Not in session</p>
 <p th:if="${loginError}" class="error">Wrong user or password</p>
-<form th:action="@{/templates/product/login.html}" method="post">
+<form th:action="@{/templates/login.html}" method="post">
     <label for="username">Username</label>:
     <input type="text" id="username" name="username" autofocus="autofocus" /> <br />
     <label for="password">Password</label>:

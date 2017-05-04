@@ -9,13 +9,13 @@ import spark.Response;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Login {
+public class LoginController {
 
     public static ModelAndView renderLogin(Request req, Response res) {
         UserDaoMem userDataStore = UserDaoMem.getInstance();
 
         Map<String, Object> params = new HashMap<>();
         params.put("users", userDataStore.getAll());
-        return new ModelAndView(params, "product/login");
+        return new ModelAndView(params, "login");
     }
 }

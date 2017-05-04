@@ -2,7 +2,7 @@ import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
 import com.codecool.shop.controller.CartController;
-import com.codecool.shop.controller.Login;
+import com.codecool.shop.controller.LoginController;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
@@ -40,9 +40,6 @@ public class Main {
         });
 
 
-
-
-
         get("/category/:id", (Request req, Response res) -> {
             int categoryID = Integer.parseInt(req.params(":id"));
             return new ThymeleafTemplateEngine().render(ProductController.renderProductsbyCategory(req, res, categoryID));
@@ -59,9 +56,10 @@ public class Main {
         });
 
         get("/login", (Request req, Response res) -> {
-                    req.session(true);
-                    return new ThymeleafTemplateEngine().render(Login.renderLogin(req, res));
-            });}
+            return new ThymeleafTemplateEngine().render(LoginController.renderLogin(req, res));
+            });
+
+    }
             /*
         post("/welcome",(Request req, Response res) -> {
 
