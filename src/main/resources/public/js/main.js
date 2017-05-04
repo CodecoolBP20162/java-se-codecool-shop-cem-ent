@@ -29,7 +29,6 @@ function toSession(idProd) {
             alert("Error")
         }
     });
-
 }
 
 
