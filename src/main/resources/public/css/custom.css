@@ -8,7 +8,7 @@
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     border-radius: 0px;
-    height: 370px;
+    height: 450px;
 }
 
 .thumbnail img {
@@ -64,22 +64,34 @@
     color: white;
     height: auto;
 }
-.log-in-field{
-    height: 70px;
-    background-color: rebeccapurple;
-}
 
 .cart-field{
     height: 70px;
-    background-color: #0d4017;
 }
 
-.carticon{
-    height: 70px;
-    width:auto ;
-    background-image: url("../resources/public/img/cart.svg");
 
-}
 .dropdown {
     margin-bottom: 20px;
+}
+
+a .glyphicon{
+    margin-top: 10px;
+    font-size: 50px;
+}
+
+#cart-counter{
+    margin: 20px auto 0px auto;
+    font-size: 24px;
+}
+
+.home-img{
+    width: 70px;
+    height: auto;
+    background-image: url("../img/cement.jpg");
+    background-size: cover;
+}
+
+.total{
+    text-align: center;
+    font-size: 36px;
 }
