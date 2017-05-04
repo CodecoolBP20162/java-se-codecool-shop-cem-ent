@@ -2,6 +2,7 @@ import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
 import com.codecool.shop.controller.CartController;
+import com.codecool.shop.controller.Login;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
@@ -55,12 +56,14 @@ public class Main {
 
         });
 
-        get("/welcome",(Request req, Response res) -> {
-            //login page needed.
-                });
-
+        get("/login", (Request req, Response res) -> {
+                    req.session(true);
+                    return new ThymeleafTemplateEngine().render(Login.renderLogin(req, res));
+            });}
+            /*
         post("/welcome",(Request req, Response res) -> {
-            //loginpage redirect if logged in.
+
+            redirect.any("/welcome", "/")
         });
 
                 //html template will need to be written.
@@ -69,7 +72,7 @@ public class Main {
 
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
-    }
+        */
 
     public static void populateData() {
 
