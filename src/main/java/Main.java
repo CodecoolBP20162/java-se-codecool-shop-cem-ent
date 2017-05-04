@@ -72,6 +72,10 @@ public class Main {
         supplierDataStore.add(amazon);
         Supplier lenovo = new Supplier("Lenovo", "Computers");
         supplierDataStore.add(lenovo);
+        Supplier apple = new Supplier("Apple","Luxury products");
+        supplierDataStore.add(apple);
+        Supplier microsoft = new Supplier("Microsoft", "IT products");
+        supplierDataStore.add(microsoft);
 
         //setting up a new product category
         ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.");
@@ -80,6 +84,9 @@ public class Main {
         productCategoryDataStore.add(phone);
         ProductCategory notebook = new ProductCategory("Notebook", "Hardware", "Like a tablet but with keyboard");
         productCategoryDataStore.add(notebook);
+        ProductCategory softwares = new ProductCategory("Software", "Software", "Programs and subscriptions");
+        productCategoryDataStore.add(softwares);
+
 
         //setting up products and printing it
         productDataStore.add(new Product("Amazon Fire", 49.9f, "USD", "Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.", tablet, amazon));
@@ -89,6 +96,11 @@ public class Main {
         //test products
         productDataStore.add(new Product("AsadHD 8", 89, "USD", "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", notebook, amazon));
         productDataStore.add(new Product("Amazon Fisadare HD 8", 89, "USD", "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", phone, amazon));
+
+
+        productDataStore.add(new Hardware("Iphone 7", 890, "USD", "Latest product of Apple.", phone, apple, 12));
+        productDataStore.add(new Software("Microsoft Office subscription", 99, "USD", "Microsoft Office is an office suite of applications, servers, and services developed by Microsoft.", softwares, microsoft, 12));
+        productDataStore.add(new Parts("Battery for Iphone 7", 69, "USD", "New battery to replace Iphone 7's old battery.", softwares, apple));
 
 
     }
