@@ -38,4 +38,20 @@ public class Cart{
         return lineItems.stream()
                 .anyMatch(li -> Objects.equals(li.getProduct(), lineItem.getProduct()));
     }
+
+    public float getSum() {
+        float sum = 0;
+        for (LineItem lineItem : lineItems) {
+            sum += lineItem.getPrice();
+        }
+        return sum;
+    }
+
+    public int getAllQuantity(){
+        int allQuantity = 0;
+        for (LineItem lineItem : lineItems) {
+            allQuantity += lineItem.getQuantity();
+        }
+        return allQuantity;
+    }
 }
