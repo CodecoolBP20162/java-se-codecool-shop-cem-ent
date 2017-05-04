@@ -31,7 +31,7 @@ public class ProductController {
         params.put("categories", productCategoryDataStore.getAll());
         params.put("suppliers", productSupplierDataStore.getAll());
         params.put("products", productDataStore.getAll());
-        params.put("numberOfCarts", cartDataStore.getAllQuantity());
+        params.put("numberOfProdutsInCart", cartDataStore.getAllQuantity());
         return new ModelAndView(params, "product/index");
     }
 
@@ -40,10 +40,14 @@ public class ProductController {
         SupplierDao productSupplierDataStore = SupplierDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
 
+        Cart cartDataStore = CartController.getCart(req);
+
+
         Map<String, Object> params = new HashMap<>();
         params.put("categories", productCategoryDataStore.getAll());
         params.put("suppliers", productSupplierDataStore.getAll());
         params.put("products", productDataStore.getBy(productCategoryDataStore.find(categoryID)));
+        params.put("numberOfProdutsInCart", cartDataStore.getAllQuantity());
         return new ModelAndView(params, "product/index");
     }
 
@@ -53,10 +57,14 @@ public class ProductController {
         SupplierDao productSupplierDataStore = SupplierDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
 
+        Cart cartDataStore = CartController.getCart(req);
+
+
         Map<String, Object> params = new HashMap<>();
         params.put("categories", productCategoryDataStore.getAll());
         params.put("suppliers", productSupplierDataStore.getAll());
         params.put("products", productDataStore.getBy(productSupplierDataStore.find(supplierID)));
+        params.put("numberOfProdutsInCart", cartDataStore.getAllQuantity());
         return new ModelAndView(params, "product/index");
     }
 

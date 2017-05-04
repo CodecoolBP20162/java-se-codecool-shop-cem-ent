@@ -18,8 +18,10 @@ function toSession(idProd) {
     $.ajax({
         url: '/addtocart/' + idProd,
         type: 'GET',
-    })
+        success: function(data) {
 
+        }
+    })
 }
 
 
