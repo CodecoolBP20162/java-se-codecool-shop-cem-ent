@@ -28,16 +28,21 @@ public class Main {
         get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
         // Equivalent with above
 
-        get("/index", (Request req, Response res) -> {
-            req.session(true);
-            return new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res));
+        get("/index", (Request req, Response res) ->
+            new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res))
+        );
 
-        });
+        get("/cartview", (Request req, Response res) ->
+            new ThymeleafTemplateEngine().render(CartController.renderCart(req, res))
+        );
 
+        get("/category/:id", (Request req, Response res) ->
+            new ThymeleafTemplateEngine().render(ProductController.renderProductsbyCategory(req, res))
+        );
 
-        get("/cartview", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(CartController.renderCart(req, res));
-        });
+        get("/supplier/:id", (Request req, Response res) ->
+            new ThymeleafTemplateEngine().render(ProductController.renderProductsbySupplier(req, res))
+        );
 
 
         get("/category/:id", (Request req, Response res) -> {
@@ -63,15 +68,13 @@ public class Main {
             return new ThymeleafTemplateEngine().render(LoginController.renderLoginPost(req, res));
         });
 
+        get("/addtocart/:id", CartController::addItemToCart);
 
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
-
     }
 
-
-    public static void populateData() {
-
+    private static void populateData() {
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
