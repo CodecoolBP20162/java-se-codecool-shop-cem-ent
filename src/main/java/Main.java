@@ -44,16 +44,6 @@ public class Main {
             new ThymeleafTemplateEngine().render(ProductController.renderProductsbySupplier(req, res))
         );
 
-
-        get("/category/:id", (Request req, Response res) -> {
-            int categoryID = Integer.parseInt(req.params(":id"));
-            return new ThymeleafTemplateEngine().render(ProductController.renderProductsbyCategory(req, res, categoryID));
-        });
-        get("/supplier/:id", (Request req, Response res) -> {
-            int supplierID = Integer.parseInt(req.params(":id"));
-            return new ThymeleafTemplateEngine().render(ProductController.renderProductsbySupplier(req, res, supplierID));
-        });
-
         get("/addtocart/:id", (Request req, Response res) -> {
             return CartController.addItemToCart(req, res);
 
