@@ -14,6 +14,7 @@ public class Main {
 
     public static void main(String[] args) {
 
+        // reset master
         // default server settings
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
         staticFileLocation("/public");
