@@ -22,7 +22,7 @@ public class Main {
 
         // populate some data for the memory storage
         populateData();
-        
+
         ProductController productController = ProductController.getInstance();
         CartController cartController = CartController.getInstance();
 
@@ -32,24 +32,24 @@ public class Main {
         // Equivalent with above
 
         get("/index", (Request req, Response res) ->
-            new ThymeleafTemplateEngine().render(productController.renderProducts(req, res))
+                new ThymeleafTemplateEngine().render(productController.renderProducts(req, res))
         );
 
         get("/cartview", (Request req, Response res) ->
-            new ThymeleafTemplateEngine().render(cartController.renderCart(req, res))
+                new ThymeleafTemplateEngine().render(cartController.renderCart(req, res))
         );
 
         get("/category/:id", (Request req, Response res) ->
-            new ThymeleafTemplateEngine().render(productController.renderProductsbyCategory(req, res))
+                new ThymeleafTemplateEngine().render(productController.renderProductsbyCategory(req, res))
         );
 
         get("/supplier/:id", (Request req, Response res) ->
-            new ThymeleafTemplateEngine().render(productController.renderProductsbySupplier(req, res))
+                new ThymeleafTemplateEngine().render(productController.renderProductsbySupplier(req, res))
         );
 
         get("/addtocart/:id", cartController::addItemToCart);
 
-        
+
         get("/login", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(LoginController.renderLogin(req, res));
         });
@@ -58,6 +58,7 @@ public class Main {
         post("/login", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(LoginController.renderLoginPost(req, res));
         });
+    }
 
     private static void populateData() {
         ProductDao productDataStore = ProductDaoMem.getInstance();
