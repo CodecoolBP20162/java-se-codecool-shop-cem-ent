@@ -14,7 +14,18 @@ import java.util.Map;
 
 public class CartController {
 
-    public static JSONObject addItemToCart(Request req, Response res) {
+    private static CartController instance = null;
+    private CartController() {}
+
+    public static CartController getInstance() {
+        if (instance == null) {
+            instance = new CartController();
+        }
+        return instance;
+
+    }
+
+    public JSONObject addItemToCart(Request req, Response res) {
         int addedProductId = Integer.parseInt(req.params(":id"));
         ProductDao productDataStore = ProductDaoMem.getInstance();
         Cart cartDataStore = getCart(req);
@@ -28,7 +39,7 @@ public class CartController {
         return jsonObj;
     }
 
-    public static ModelAndView renderCart(Request req, Response res) {
+    public ModelAndView renderCart(Request req, Response res) {
         Cart cartDataStore = getCart(req);
         Map<String, Object> params = new HashMap<>();
         params.put("lineitems", cartDataStore.getAll());
