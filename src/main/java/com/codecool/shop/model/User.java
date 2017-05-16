@@ -3,14 +3,16 @@ package com.codecool.shop.model;
 
 import java.util.ArrayList;
 
-public class User extends BaseModel {
-    private ArrayList<User> users;
+public class User {
+    protected int id;
+    protected String name;
     private String password;
-    private int type;
-
-    public User(String name, String password, String description) {
-        super(name);
+    private int rank;
+    private ArrayList<User> users;
+    public User(String name, String password, int rank) {
+        this.name = name;
         this.password = password;
+        this.rank = rank;
         this.users = new ArrayList<>();
     }
 
@@ -26,6 +28,18 @@ public class User extends BaseModel {
         this.users.add(user);
     }
 
+    public int getId() {return id;}
+
+    public void setId(int id) {this.id = id;}
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -34,25 +48,23 @@ public class User extends BaseModel {
         this.password = password;
     }
 
-    public int getType() {
-        return type;
+    public int getRank() {
+        return rank;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 
     public String toString() {
         return String.format("id: %1$d, " +
                         "name: %2$s, " +
                         "password: %3$s" +
-                        "type: %4$d" +
-                        "description: %5$s",
+                        "rank: %4$d",
                 this.id,
                 this.name,
                 this.password,
-                this.type,
-                this.description
+                this.rank
         );
 
     }

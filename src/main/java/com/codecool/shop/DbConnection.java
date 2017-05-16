@@ -11,7 +11,7 @@ import java.sql.Statement;
 
 public class DbConnection {
 
-    private Connection getConnection() throws IOException, SQLException {
+    public static Connection getConnection() throws IOException, SQLException {
 
         BufferedReader br = new BufferedReader(new FileReader("connect.txt"));
         final String DATABASE = br.readLine();
@@ -25,7 +25,7 @@ public class DbConnection {
                 DB_PASSWORD);
     }
 
-    private void executeQuery(String query) {
+    public static void executeQuery(String query) {
         try (Connection connection = getConnection();
              Statement statement =connection.createStatement();
         ){
