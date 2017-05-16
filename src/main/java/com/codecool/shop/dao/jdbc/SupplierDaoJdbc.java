@@ -11,10 +11,8 @@ import java.util.List;
 
 public class SupplierDaoJdbc implements SupplierDao {
 
-
     DbConnection connection = new DbConnection();
     private static SupplierDaoJdbc instance = null;
-
 
 
     private SupplierDaoJdbc() {
@@ -27,7 +25,6 @@ public class SupplierDaoJdbc implements SupplierDao {
         return instance;
     }
 
-
     @Override
     public void add(Supplier supplier) {
 
@@ -38,8 +35,7 @@ public class SupplierDaoJdbc implements SupplierDao {
             pstmt.setString(1, supplier.getName());
             pstmt.setString(2, supplier.getDescription());
             pstmt.executeQuery();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,38 +47,38 @@ public class SupplierDaoJdbc implements SupplierDao {
     @Override
     public Supplier find(int id) {
 
+        String query = "SELECT * FROM suppliers WHERE id ='" + id + "';";
+        try (Connection conn = connection.getConnection();
+             Statement statement = conn.createStatement();
+             ResultSet resultSet = statement.executeQuery(query);
+        ) {
+            if (resultSet.next()) {
+                Supplier result = new Supplier(resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("description"));
+                return result;
+            } else {
+                return null;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return null;
+
     }
 
-        //String query = "SELECT * FROM todos WHERE id ='" + id + "';";
-       /* try (Connection connection = getConnection();
-    Statement statement =connection.createStatement();
-    ResultSet resultSet = statement.executeQuery(query);
-        ){
-        if (resultSet.next()){
-            Todo result = new Todo(resultSet.getString("title"),
-                    resultSet.getString("id"),
-                    Status.valueOf(resultSet.getString("status")));
-            return result;
-        } else {
+        @Override
+        public void remove ( int id){
+
+        }
+
+        @Override
+        public List<Supplier> getAll () {
             return null;
         }
 
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-
-        return null;*/
-
-
-
-    @Override
-    public void remove(int id) {
-
-    }
-
-    @Override
-    public List<Supplier> getAll() {
-        return null;
-    }
 }
