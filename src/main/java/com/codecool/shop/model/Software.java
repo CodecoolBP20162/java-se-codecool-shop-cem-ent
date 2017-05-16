@@ -1,8 +1,6 @@
 package com.codecool.shop.model;
 
-/**
- * Created by codeorgo-vd on 2017.05.03..
- */
+
 public class Software extends Product {
 
     private int duration;
