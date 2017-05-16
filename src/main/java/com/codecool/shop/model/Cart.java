@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-public class Cart {
+public class Cart{
     Date created = new Date();
     private final List<LineItem> lineItems = new ArrayList<>();
 
@@ -14,7 +14,8 @@ public class Cart {
     public void add(LineItem lineItem) {
         if (hasProduct(lineItem)) {
             findLineItem(lineItem).incrementQuantity();
-        } else {
+        }
+        else {
             lineItems.add(lineItem);
         }
     }
@@ -27,22 +28,6 @@ public class Cart {
         lineItems.remove(findLineItem(lineItem));
     }
 
-    public float getSum() {
-        float sum = 0;
-        for (LineItem lineItem : lineItems) {
-            sum += lineItem.getPrice();
-        }
-        return sum;
-    }
-
-    public int getAllQuantity() {
-        int allQuantity = 0;
-        for (LineItem lineItem : lineItems) {
-            allQuantity += lineItem.getQuantity();
-        }
-        return allQuantity;
-    }
-
     private LineItem findLineItem(LineItem lineItem) {
         return lineItems.stream()
                 .filter(l -> l.getProduct().equals(lineItem.getProduct()))
@@ -52,5 +37,21 @@ public class Cart {
     private boolean hasProduct(LineItem lineItem) {
         return lineItems.stream()
                 .anyMatch(li -> Objects.equals(li.getProduct(), lineItem.getProduct()));
+    }
+
+    public float getSum() {
+        float sum = 0;
+        for (LineItem lineItem : lineItems) {
+            sum += lineItem.getPrice();
+        }
+        return sum;
+    }
+
+    public int getAllQuantity(){
+        int allQuantity = 0;
+        for (LineItem lineItem : lineItems) {
+            allQuantity += lineItem.getQuantity();
+        }
+        return allQuantity;
     }
 }

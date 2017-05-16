@@ -2,6 +2,7 @@ import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
 import com.codecool.shop.controller.CartController;
+import com.codecool.shop.controller.LoginController;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
@@ -14,7 +15,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // reset master
         // default server settings
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
         staticFileLocation("/public");
@@ -22,6 +22,7 @@ public class Main {
 
         // populate some data for the memory storage
         populateData();
+
 
         // Always add generic routes to the end
         get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
@@ -43,6 +44,20 @@ public class Main {
             new ThymeleafTemplateEngine().render(ProductController.renderProductsbySupplier(req, res))
         );
 
+        get("/addtocart/:id", (Request req, Response res) -> {
+            return CartController.addItemToCart(req, res);
+
+        });
+
+        get("/login", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(LoginController.renderLogin(req, res));
+        });
+
+
+        post("/login", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(LoginController.renderLoginPost(req, res));
+        });
+
         get("/addtocart/:id", CartController::addItemToCart);
 
         // Add this line to your project to enable the debug screen
@@ -53,6 +68,7 @@ public class Main {
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+        UserDao userDataStore = UserDaoMem.getInstance();
 
         //setting up a new supplier
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
@@ -76,6 +92,7 @@ public class Main {
         ProductCategory parts = new ProductCategory("Parts", "Parts", "Parts for different types of products.");
         productCategoryDataStore.add(parts);
 
+
         //setting up products and printing it
         productDataStore.add(new Hardware("Amazon Fire", 49.9f, "USD", "Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.", tablet, amazon, 12));
         productDataStore.add(new Hardware("Lenovo IdeaPad Miix 700", 479, "USD", "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.", tablet, lenovo, 12));
@@ -84,5 +101,13 @@ public class Main {
         productDataStore.add(new Hardware("Iphone 7", 899.9f, "USD", "Latest product of Apple.", phone, apple, 12));
         productDataStore.add(new Software("Microsoft Office subscription", 99.9f, "USD", "Microsoft Office is an office suite of applications, servers, and services developed by Microsoft.", softwares, microsoft, 12));
         productDataStore.add(new Parts("Battery for Iphone 7", 69.9f, "USD", "New battery to replace Iphone 7's old battery.", parts, apple));
+
+        //Setting up users
+        User admin = new User("admin", "admin", "admin Account");
+        userDataStore.add(admin);
+        User admin2 = new User("admin2", "admin2", "admin Account");
+        userDataStore.add(admin2);
+
     }
+
 }

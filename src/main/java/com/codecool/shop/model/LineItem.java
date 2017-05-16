@@ -1,6 +1,7 @@
 package com.codecool.shop.model;
 
 
+
 public class LineItem {
     private final Product product;
     private int quantity = 1;
@@ -9,20 +10,29 @@ public class LineItem {
         this.product = product;
     }
 
+    public float getPrice() {
+        return product.getDefaultPrice() * quantity;
+    }
+
     public Product getProduct() {
         return product;
     }
 
-    int getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    void incrementQuantity() {
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void incrementQuantity() {
         this.quantity += 1;
     }
 
-    float getPrice() {
-        return product.getDefaultPrice() * quantity;
+    public void decreaseQuantity() {
+        this.quantity -= 1;
     }
 
+    
 }

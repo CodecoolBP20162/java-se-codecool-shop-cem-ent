@@ -36,7 +36,7 @@ public class CartController {
         return new ModelAndView(params, "cartview");
     }
 
-    static Cart getCart(Request req) {
+    public static Cart getCart(Request req) {
         Cart cart = req.session().attribute("cart");
         if (cart == null) {
             cart = new Cart();
