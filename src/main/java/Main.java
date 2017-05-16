@@ -19,6 +19,7 @@ public class Main {
 
         CartController cartController = CartController.getInstance();
         ProductController productController = ProductController.getInstance();
+        LoginController loginController = LoginController.getInstance();
 
         // default server settings
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
@@ -48,19 +49,19 @@ public class Main {
             new ThymeleafTemplateEngine().render(productController.renderProductsbySupplier(req, res))
         );
 
-        get("/addtocart/:id", (Request req, Response res) -> {
-            return cartController.addItemToCart(req, res);
+        get("/addtocart/:id", (Request req, Response res) ->
+            cartController.addItemToCart(req, res)
 
-        });
+        );
 
-        get("/login", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(LoginController.renderLogin(req, res));
-        });
+        get("/login", (Request req, Response res) ->
+            new ThymeleafTemplateEngine().render(loginController.renderLogin(req, res))
+        );
 
 
-        post("/login", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(LoginController.renderLoginPost(req, res));
-        });
+        post("/login", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(loginController.renderLoginPost(req, res))
+        );
 
         get("/addtocart/:id", cartController::addItemToCart);
 
