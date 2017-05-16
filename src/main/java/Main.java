@@ -13,7 +13,12 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 public class Main {
 
+
+
     public static void main(String[] args) {
+
+        CartController cartController = CartController.getInstance();
+        ProductController productController = ProductController.getInstance();
 
         // default server settings
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
@@ -23,29 +28,28 @@ public class Main {
         // populate some data for the memory storage
         populateData();
 
-
         // Always add generic routes to the end
-        get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
+        get("/", productController::renderProducts, new ThymeleafTemplateEngine());
         // Equivalent with above
 
         get("/index", (Request req, Response res) ->
-            new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res))
+            new ThymeleafTemplateEngine().render(productController.renderProducts(req, res))
         );
 
         get("/cartview", (Request req, Response res) ->
-            new ThymeleafTemplateEngine().render(CartController.renderCart(req, res))
+            new ThymeleafTemplateEngine().render(cartController.renderCart(req, res))
         );
 
         get("/category/:id", (Request req, Response res) ->
-            new ThymeleafTemplateEngine().render(ProductController.renderProductsbyCategory(req, res))
+            new ThymeleafTemplateEngine().render(productController.renderProductsbyCategory(req, res))
         );
 
         get("/supplier/:id", (Request req, Response res) ->
-            new ThymeleafTemplateEngine().render(ProductController.renderProductsbySupplier(req, res))
+            new ThymeleafTemplateEngine().render(productController.renderProductsbySupplier(req, res))
         );
 
         get("/addtocart/:id", (Request req, Response res) -> {
-            return CartController.addItemToCart(req, res);
+            return cartController.addItemToCart(req, res);
 
         });
 
@@ -58,7 +62,7 @@ public class Main {
             return new ThymeleafTemplateEngine().render(LoginController.renderLoginPost(req, res));
         });
 
-        get("/addtocart/:id", CartController::addItemToCart);
+        get("/addtocart/:id", cartController::addItemToCart);
 
         // Add this line to your project to enable the debug screen
         enableDebugScreen();

@@ -21,7 +21,17 @@ import java.util.Map;
 
 public class ProductController {
 
-    public static ModelAndView renderProducts(Request req, Response res) {
+    private static ProductController instance = null;
+    private ProductController() {}
+
+    public static ProductController getInstance() {
+        if (instance == null) {
+            instance = new ProductController();
+        }
+        return instance;
+    }
+
+    public ModelAndView renderProducts(Request req, Response res) {
         ProductDao productDataStore = ProductDaoMem.getInstance();
 
         Map<String, Object> params = getCommonParams(req);
@@ -29,7 +39,7 @@ public class ProductController {
         return new ModelAndView(params, "product/index");
     }
 
-    public static ModelAndView renderProductsbyCategory(Request req, Response res) {
+    public ModelAndView renderProductsbyCategory(Request req, Response res) {
         int categoryID = Integer.parseInt(req.params(":id"));
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
@@ -39,7 +49,7 @@ public class ProductController {
         return new ModelAndView(params, "product/index");
     }
 
-    public static ModelAndView renderProductsbySupplier(Request req, Response res) {
+    public ModelAndView renderProductsbySupplier(Request req, Response res) {
         int supplierID = Integer.parseInt(req.params(":id"));
         ProductDao productDataStore = ProductDaoMem.getInstance();
         SupplierDao productSupplierDataStore = SupplierDaoMem.getInstance();
@@ -49,10 +59,11 @@ public class ProductController {
         return new ModelAndView(params, "product/index");
     }
 
-    private static Map<String, Object> getCommonParams(Request req) {
+    private Map<String, Object> getCommonParams(Request req) {
+        CartController cartController = CartController.getInstance();
         SupplierDao productSupplierDataStore = SupplierDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-        Cart cartDataStore = CartController.getCart(req);
+        Cart cartDataStore = cartController.getCart(req);
 
         Map<String, Object> params = new HashMap<>();
         params.put("categories", productCategoryDataStore.getAll());
