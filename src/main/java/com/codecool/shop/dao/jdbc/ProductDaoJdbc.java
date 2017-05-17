@@ -41,7 +41,7 @@ public class ProductDaoJdbc implements ProductDao {
 
         String query = "SELECT * FROM products WHERE id=" + id + ";";
         SupplierDaoJdbc supplier = SupplierDaoJdbc.getInstance();
-        ProductCategoryDaoJdbc productCategory = new ProductCategoryDaoJdbc().getInstance();
+        ProductCategoryDaoJdbc productCategory = ProductCategoryDaoJdbc.getInstance();
 
 
         try {
@@ -78,7 +78,7 @@ public class ProductDaoJdbc implements ProductDao {
         LinkedList<Product> productList = new LinkedList<>();
         String query = "SELECT * FROM products";
         SupplierDaoJdbc supplier = SupplierDaoJdbc.getInstance();
-        ProductCategoryDaoJdbc productCategory = new ProductCategoryDaoJdbc().getInstance();
+        ProductCategoryDaoJdbc productCategory = ProductCategoryDaoJdbc.getInstance();
 
         try {
             DbConnection connection = new DbConnection();
@@ -105,7 +105,7 @@ public class ProductDaoJdbc implements ProductDao {
     public List<Product> getBy(Supplier supplier) {
         LinkedList<Product> productList = new LinkedList<>();
         String query = "SELECT * FROM products WHERE supplier=" + supplier.getId() + ";";
-        ProductCategoryDaoJdbc productCategory = new ProductCategoryDaoJdbc().getInstance();
+        ProductCategoryDaoJdbc productCategory = ProductCategoryDaoJdbc.getInstance();
 
         try {
             DbConnection connection = new DbConnection();

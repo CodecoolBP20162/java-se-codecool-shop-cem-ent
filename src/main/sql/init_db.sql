@@ -31,8 +31,6 @@ CREATE TABLE products
 (
 id SERIAL PRIMARY KEY,
 name varchar(40),
-price VARCHAR(20),
-currency VARCHAR (4),
 price FLOAT,
 currency VARCHAR (10),
 description VARCHAR (200),
