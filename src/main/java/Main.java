@@ -6,7 +6,7 @@ import com.codecool.shop.controller.LoginController;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
-import com.codecool.shop.dao.jdbc.ProductDaoJdbc;
+import com.codecool.shop.dao.jdbc.SupplierDaoJdbc;
 import com.codecool.shop.model.*;
 import spark.Request;
 import spark.Response;
@@ -73,7 +73,7 @@ public class Main {
     private static void populateData() {
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-        SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+        SupplierDao supplierDataStore = SupplierDaoJdbc.getInstance();
         UserDao userDataStore = UserDaoMem.getInstance();
 
         //setting up a new supplier
@@ -115,10 +115,15 @@ public class Main {
         userDataStore.add(admin2);
 
 
-        Product prod1 = new Product("Amazon Fire", 49.9f, "USD", "Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.", tablet, amazon);
+        System.out.println(supplierDataStore.find(1));
+        System.out.println(supplierDataStore.find(4));
+        System.out.println(supplierDataStore.find(8));
+        supplierDataStore.remove(1);
+        System.out.println(supplierDataStore.find(1));
+        System.out.println(supplierDataStore.getAll());
 
-        ProductDaoJdbc x = new ProductDaoJdbc();
-        x.add(prod1);
+
+
 
     }
 
