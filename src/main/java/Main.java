@@ -7,6 +7,7 @@ import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.dao.jdbc.SupplierDaoJdbc;
+import com.codecool.shop.dao.jdbc.UserDaoJdbc;
 import com.codecool.shop.model.*;
 import spark.Request;
 import spark.Response;
@@ -74,7 +75,7 @@ public class Main {
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoJdbc.getInstance();
-        UserDao userDataStore = UserDaoMem.getInstance();
+        UserDao userDataStore = UserDaoJdbc.getInstance();
 
         //setting up a new supplier
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
@@ -109,9 +110,9 @@ public class Main {
         productDataStore.add(new Parts("Battery for Iphone 7", 69.9f, "USD", "New battery to replace Iphone 7's old battery.", parts, apple));
 
         //Setting up users
-        User admin = new User("admin", "admin", "admin Account");
+        User admin = new User("admin", "admin", 1);
         userDataStore.add(admin);
-        User admin2 = new User("admin2", "admin2", "admin Account");
+        User admin2 = new User("admin2", "admin2", 1);
         userDataStore.add(admin2);
 
 
@@ -122,7 +123,7 @@ public class Main {
         System.out.println(supplierDataStore.find(1));
         System.out.println(supplierDataStore.getAll());
 
-
+        System.out.println(userDataStore.find(1));
 
 
     }

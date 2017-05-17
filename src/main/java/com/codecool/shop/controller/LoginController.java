@@ -37,7 +37,7 @@ public class LoginController {
             if (req.queryParams("password").equals(user.getPassword())) {
                 req.session(true);
                 req.session().attribute("user", req.queryParams("username"));
-                req.session().attribute("type", user.getType());
+                req.session().attribute("type", user.getRank());
                 res.redirect("/");
             }
         }

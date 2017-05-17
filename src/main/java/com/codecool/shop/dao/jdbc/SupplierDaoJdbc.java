@@ -35,7 +35,7 @@ public class SupplierDaoJdbc implements SupplierDao {
             PreparedStatement pstmt = connection.getConnection().prepareStatement(INSERT_QUERY);
             pstmt.setString(1, supplier.getName());
             pstmt.setString(2, supplier.getDescription());
-            pstmt.executeQuery();
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -79,7 +79,7 @@ public class SupplierDaoJdbc implements SupplierDao {
             try {
                 PreparedStatement pstmt = connection.getConnection().prepareStatement(QUERY);
                 pstmt.setInt(1, id);
-                pstmt.executeQuery();
+                pstmt.executeUpdate();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (SQLException e) {
