@@ -34,12 +34,11 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
         try{
             DbConnection connection = new DbConnection();
             Connection db = connection.getConnection();
-            String query = "INSERT INTO product VALUES(?, ?, ?, ?)";
+            String query = "INSERT INTO product VALUES(?, ?, ?)";
             PreparedStatement ps = db.prepareStatement(query);
-            ps.setInt(1, category.getId());
-            ps.setString(2, category.getName());
-            ps.setString(3, category.getDepartment());
-            ps.setString(4, category.getDescription());
+            ps.setString(1, category.getName());
+            ps.setString(2, category.getDepartment());
+            ps.setString(3, category.getDescription());
 
             ps.executeQuery();
         }

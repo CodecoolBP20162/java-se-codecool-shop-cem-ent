@@ -19,15 +19,14 @@ public class ProductDaoJdbc implements ProductDao {
         try{
             DbConnection connection = new DbConnection();
             Connection db = connection.getConnection();
-            String query = "INSERT INTO product VALUES(?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO product VALUES(?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = db.prepareStatement(query);
-            ps.setInt(1, product.getId());
-            ps.setString(2, product.getName());
-            ps.setString(3, product.getPrice());
-            ps.setString(4, product.getDefaultCurrency().toString());
-            ps.setString(5, product.getDescription());
-            ps.setInt(6, product.getSupplier().getId());
-            ps.setInt(7, product.getProductCategory().getId());
+            ps.setString(1, product.getName());
+            ps.setString(2, product.getPrice());
+            ps.setString(3, product.getDefaultCurrency().toString());
+            ps.setString(4, product.getDescription());
+            ps.setInt(5, product.getSupplier().getId());
+            ps.setInt(6, product.getProductCategory().getId());
 
             ps.executeQuery();
         }
