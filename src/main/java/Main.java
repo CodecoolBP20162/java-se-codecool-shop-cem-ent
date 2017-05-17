@@ -115,9 +115,12 @@ public class Main {
         userDataStore.add(admin2);
 
         System.out.println(supplierDataStore.find(1));
-        System.out.println(supplierDataStore.find(2));
         System.out.println(supplierDataStore.find(4));
         System.out.println(supplierDataStore.find(8));
+        supplierDataStore.remove(1);
+        System.out.println(supplierDataStore.find(1));
+
+
 
 
     }
