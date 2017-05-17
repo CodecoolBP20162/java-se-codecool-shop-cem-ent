@@ -5,12 +5,14 @@ import com.codecool.shop.controller.CartController;
 import com.codecool.shop.controller.LoginController;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
-import com.codecool.shop.dao.implementation.*;
+import com.codecool.shop.dao.jdbc.ProductCategoryDaoJdbc;
+import com.codecool.shop.dao.jdbc.ProductDaoJdbc;
 import com.codecool.shop.dao.jdbc.SupplierDaoJdbc;
 import com.codecool.shop.dao.jdbc.UserDaoJdbc;
 import com.codecool.shop.model.*;
 import spark.Request;
 import spark.Response;
+import spark.TemplateEngine;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 public class Main {
@@ -19,6 +21,7 @@ public class Main {
 
     public static void main(String[] args) {
 
+        TemplateEngine templateEngine = new ThymeleafTemplateEngine();
         CartController cartController = CartController.getInstance();
         ProductController productController = ProductController.getInstance();
         LoginController loginController = LoginController.getInstance();
@@ -29,26 +32,25 @@ public class Main {
         port(8888);
 
         // populate some data for the memory storage
-        populateData();
+        //populateData();
 
         // Always add generic routes to the end
-        get("/", productController::renderProducts, new ThymeleafTemplateEngine());
+        get("/", productController::renderProducts, templateEngine);
         // Equivalent with above
 
         get("/index", (Request req, Response res) ->
-            new ThymeleafTemplateEngine().render(productController.renderProducts(req, res))
-        );
+            productController.renderProducts(req, res), templateEngine);
 
         get("/cartview", (Request req, Response res) ->
-            new ThymeleafTemplateEngine().render(cartController.renderCart(req, res))
+            templateEngine.render(cartController.renderCart(req, res))
         );
 
         get("/category/:id", (Request req, Response res) ->
-            new ThymeleafTemplateEngine().render(productController.renderProductsbyCategory(req, res))
+            templateEngine.render(productController.renderProductsbyCategory(req, res))
         );
 
         get("/supplier/:id", (Request req, Response res) ->
-            new ThymeleafTemplateEngine().render(productController.renderProductsbySupplier(req, res))
+            templateEngine.render(productController.renderProductsbySupplier(req, res))
         );
 
         get("/addtocart/:id", (Request req, Response res) ->
@@ -57,12 +59,12 @@ public class Main {
         );
 
         get("/login", (Request req, Response res) ->
-            new ThymeleafTemplateEngine().render(loginController.renderLogin(req, res))
+            templateEngine.render(loginController.renderLogin(req, res))
         );
 
 
         post("/login", (Request req, Response res) ->
-                new ThymeleafTemplateEngine().render(loginController.renderLoginPost(req, res))
+                templateEngine.render(loginController.renderLoginPost(req, res))
         );
 
         get("/addtocart/:id", cartController::addItemToCart);
@@ -72,8 +74,8 @@ public class Main {
     }
 
     private static void populateData() {
-        ProductDao productDataStore = ProductDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+        ProductDao productDataStore = new ProductDaoJdbc();
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJdbc.getInstance();
         SupplierDao supplierDataStore = SupplierDaoJdbc.getInstance();
         UserDao userDataStore = UserDaoJdbc.getInstance();
 
@@ -114,16 +116,6 @@ public class Main {
         userDataStore.add(admin);
         User admin2 = new User("admin2", "admin2", 1);
         userDataStore.add(admin2);
-
-
-        System.out.println(supplierDataStore.find(1));
-        System.out.println(supplierDataStore.find(4));
-        System.out.println(supplierDataStore.find(8));
-        supplierDataStore.remove(1);
-        System.out.println(supplierDataStore.find(1));
-        System.out.println(supplierDataStore.getAll());
-
-        System.out.println(userDataStore.find(1));
 
 
     }
