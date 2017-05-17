@@ -31,7 +31,7 @@ CREATE TABLE product
 (
 id int PRIMARY KEY,
 name varchar(40),
-price int,
+price VARCHAR(20),
 currency VARCHAR (4),
 description VARCHAR (200),
 supplier int,

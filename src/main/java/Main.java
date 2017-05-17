@@ -6,6 +6,7 @@ import com.codecool.shop.controller.LoginController;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
+import com.codecool.shop.dao.jdbc.ProductDaoJdbc;
 import com.codecool.shop.model.*;
 import spark.Request;
 import spark.Response;
@@ -112,6 +113,12 @@ public class Main {
         userDataStore.add(admin);
         User admin2 = new User("admin2", "admin2", "admin Account");
         userDataStore.add(admin2);
+
+
+        Product prod1 = new Product("Amazon Fire", 49.9f, "USD", "Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.", tablet, amazon);
+
+        ProductDaoJdbc x = new ProductDaoJdbc();
+        x.add(prod1);
 
     }
 
