@@ -6,6 +6,7 @@ import com.codecool.shop.model.Supplier;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -89,7 +90,30 @@ public class SupplierDaoJdbc implements SupplierDao {
 
         @Override
         public List<Supplier> getAll () {
+
+            List<Supplier> suppliers = new ArrayList<>();
+            String query = "SELECT * FROM suppliers";
+
+            try (Connection conn = connection.getConnection();
+                 Statement statement = conn.createStatement();
+                 ResultSet resultSet = statement.executeQuery(query);
+            ) {
+                while (resultSet.next()) {
+                    Supplier supplier = new Supplier(resultSet.getInt("id"),
+                            resultSet.getString("name"),
+                            resultSet.getString("description"));
+                    suppliers.add(supplier);
+                }
+                return suppliers;
+
+            } catch (SQLException e) {
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return null;
         }
-
 }
+
+
+

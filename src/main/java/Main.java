@@ -119,6 +119,7 @@ public class Main {
         System.out.println(supplierDataStore.find(8));
         supplierDataStore.remove(1);
         System.out.println(supplierDataStore.find(1));
+        System.out.println(supplierDataStore.getAll());
 
 
 
