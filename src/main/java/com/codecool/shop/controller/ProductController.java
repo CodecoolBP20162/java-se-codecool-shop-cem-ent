@@ -6,6 +6,7 @@ import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.dao.implementation.SupplierDaoMem;
+import com.codecool.shop.dao.jdbc.SupplierDaoJdbc;
 import com.codecool.shop.model.Cart;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
@@ -52,7 +53,7 @@ public class ProductController {
     public ModelAndView renderProductsbySupplier(Request req, Response res) {
         int supplierID = Integer.parseInt(req.params(":id"));
         ProductDao productDataStore = ProductDaoMem.getInstance();
-        SupplierDao productSupplierDataStore = SupplierDaoMem.getInstance();
+        SupplierDao productSupplierDataStore = SupplierDaoJdbc.getInstance();
 
         Map<String, Object> params = getCommonParams(req);
         params.put("products", productDataStore.getBy(productSupplierDataStore.find(supplierID)));
@@ -61,7 +62,7 @@ public class ProductController {
 
     private Map<String, Object> getCommonParams(Request req) {
         CartController cartController = CartController.getInstance();
-        SupplierDao productSupplierDataStore = SupplierDaoMem.getInstance();
+        SupplierDao productSupplierDataStore = SupplierDaoJdbc.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         Cart cartDataStore = cartController.getCart(req);
 
