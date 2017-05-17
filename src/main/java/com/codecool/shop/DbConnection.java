@@ -13,8 +13,8 @@ public class DbConnection {
 
     public Connection getConnection() throws IOException, SQLException {
 
-        BufferedReader br = new BufferedReader(new FileReader("connect.txt"));
-        final String DATABASE = br.readLine();
+        BufferedReader br = new BufferedReader(new FileReader("src/main/resources/connection.properties"));
+        final String DATABASE = "jdbc:postgresql://" + br.readLine() + "/" + br.readLine();
         final String DB_USER = br.readLine();
         final String DB_PASSWORD = br.readLine();
         br.close();
