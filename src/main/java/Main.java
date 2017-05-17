@@ -108,9 +108,9 @@ public class Main {
         productDataStore.add(new Parts("Battery for Iphone 7", 69.9f, "USD", "New battery to replace Iphone 7's old battery.", parts, apple));
 
         //Setting up users
-        User admin = new User("admin", "admin", "admin Account");
+        User admin = new User("admin", "admin", 1);
         userDataStore.add(admin);
-        User admin2 = new User("admin2", "admin2", "admin Account");
+        User admin2 = new User("admin2", "admin2", 1);
         userDataStore.add(admin2);
 
     }
