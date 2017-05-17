@@ -26,14 +26,14 @@ class ProductCategoryDaoTest {
     }
 
     @Test
-    public void testAddNewSupplier(){
+    public void testAddNewProductCategory(){
         ProductCategory notebooks = new ProductCategory("Notebook", "Hardware", "Like a tablet but with keyboard");
         productCategoryDataStore.add(notebooks);
         assertEquals(notebooks, productCategoryDataStore.getAll().get(0));
     }
 
     @Test
-    public void testFindSupplier(){
+    public void testFindProductCategory(){
         ProductCategory parts = new ProductCategory("Parts", "Parts", "Parts for different types of products.");
         productCategoryDataStore.add(parts);
         assertEquals(1, productCategoryDataStore.getAll().size());
