@@ -59,7 +59,7 @@ public class User {
     public String toString() {
         return String.format("id: %1$d, " +
                         "name: %2$s, " +
-                        "password: %3$s" +
+                        "password: %3$s, " +
                         "rank: %4$d",
                 this.id,
                 this.name,

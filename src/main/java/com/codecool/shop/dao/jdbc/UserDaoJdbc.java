@@ -34,8 +34,7 @@ public class UserDaoJdbc implements UserDao {
 
         try (Connection conn = connection.getConnection();
              Statement statement = conn.createStatement();
-             ResultSet resultSet = statement.executeQuery(query);
-        ) {
+             ResultSet resultSet = statement.executeQuery(query)) {
             if (resultSet.next()) {
                 int result = resultSet.getInt("id");
             } else {
@@ -56,7 +55,7 @@ public class UserDaoJdbc implements UserDao {
             pstmt.setString(1, user.getName());
             pstmt.setString(2, user.getPassword());
             pstmt.setInt(3, user.getRank());
-            pstmt.executeQuery();
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {
