@@ -54,7 +54,7 @@ class UserDaoTest {
 
     @Test
     public void testGetAllProductCategory(){
-        List<ProductCategory> productCategories = new ArrayList<>();
-        assertEquals(productCategories, userDataStore.getAll());
+        List<ProductCategory> user = new ArrayList<>();
+        assertEquals(user, userDataStore.getAll());
     }
 }
