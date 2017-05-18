@@ -13,11 +13,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SupplierDaoTest {
+class SupplierDaoJdbcTest {
 
-        private static SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
-        static Supplier amazon = new Supplier("Amazon", "Digital content and services");
-        static Supplier lenovo = new Supplier("Lenovo", "Computers");
+
+    private static SupplierDao supplierDataStore = SupplierDaoJdbc.getInstance();
+    static Supplier amazon = new Supplier("Amazon", "Digital content and services");
+    static Supplier lenovo = new Supplier("Lenovo", "Computers");
 
     @BeforeEach
     void initializeTestRequirements(){
@@ -42,8 +43,7 @@ class SupplierDaoTest {
     void testFindSupplier(){
         supplierDataStore.add(amazon);
         supplierDataStore.add(lenovo);
-        int id = amazon.getId();
-        assertEquals(amazon.getName(), supplierDataStore.find(id).getName());
+        assertEquals(amazon.getName(), supplierDataStore.find(amazon.getId()).getName());
     }
 
 
