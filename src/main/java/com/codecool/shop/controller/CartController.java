@@ -1,7 +1,8 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.dao.implementation.ProductDaoMem;
+//import com.codecool.shop.dao.implementation.ProductDaoMem;
+import com.codecool.shop.dao.jdbc.ProductDaoJdbc;
 import com.codecool.shop.model.Cart;
 import com.codecool.shop.model.LineItem;
 import org.json.simple.JSONObject;
@@ -26,7 +27,7 @@ public class CartController {
 
     public JSONObject addItemToCart(Request req, Response res) {
         int addedProductId = Integer.parseInt(req.params(":id"));
-        ProductDao productDataStore = ProductDaoMem.getInstance();
+        ProductDao productDataStore = new ProductDaoJdbc();
         Cart cartDataStore = getCart(req);
 
         LineItem lineItemCandidate = new LineItem(productDataStore.find(addedProductId));

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class SupplierDaoJdbc implements SupplierDao {
 
-    DbConnection connection = new DbConnection();
+    private DbConnection dbConnection = new DbConnection();
     private static SupplierDaoJdbc instance = null;
 
 
@@ -30,18 +30,22 @@ public class SupplierDaoJdbc implements SupplierDao {
     public void add(Supplier supplier) {
 
         final String INSERT_QUERY = "INSERT INTO suppliers (name, description) VALUES (?,?);";
+        String[] columnsToReturn = {"id"};
 
-        try {
-            PreparedStatement pstmt = connection.getConnection().prepareStatement(INSERT_QUERY);
+        try (PreparedStatement pstmt = dbConnection.getConnection().prepareStatement(INSERT_QUERY, columnsToReturn)) {
+
             pstmt.setString(1, supplier.getName());
             pstmt.setString(2, supplier.getDescription());
             pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+
+            // to get id of created row
+            ResultSet generatedKeys = pstmt.getGeneratedKeys();
+            generatedKeys.next();
+            supplier.setId(generatedKeys.getInt("id"));
+
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
-
 
     }
 
@@ -50,69 +54,52 @@ public class SupplierDaoJdbc implements SupplierDao {
 
         String QUERY = "SELECT * FROM suppliers WHERE id=?;";
         try {
-            PreparedStatement pstmt = connection.getConnection().prepareStatement(QUERY);
+            PreparedStatement pstmt = dbConnection.getConnection().prepareStatement(QUERY);
             pstmt.setInt(1, id);
             ResultSet resultSet = pstmt.executeQuery();
-
-            if (resultSet.next()) {
-                Supplier result = new Supplier(resultSet.getInt("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("description"));
-                return result;
-            } else {
-                return null;
-            }
-        }
-         catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            return (resultSet.next()) ? createSupplier(resultSet) : null;
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
-
         return null;
-
     }
 
-        @Override
-        public void remove ( int id){
-            String QUERY = "DELETE FROM suppliers WHERE id =?;";
-            try {
-                PreparedStatement pstmt = connection.getConnection().prepareStatement(QUERY);
-                pstmt.setInt(1, id);
-                pstmt.executeUpdate();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-
+    @Override
+    public void remove(int id) {
+        String QUERY = "DELETE FROM suppliers WHERE id =?;";
+        try {
+            PreparedStatement pstmt = dbConnection.getConnection().prepareStatement(QUERY);
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
         }
+    }
 
-        @Override
-        public List<Supplier> getAll () {
+    @Override
+    public List<Supplier> getAll() {
 
-            List<Supplier> suppliers = new ArrayList<>();
-            String QUERY = "SELECT * FROM suppliers";
+        List<Supplier> suppliers = new ArrayList<>();
+        String QUERY = "SELECT * FROM suppliers";
 
-            try (PreparedStatement pstmt = connection.getConnection().prepareStatement(QUERY);
-                 ResultSet resultSet = pstmt.executeQuery();
-            ) {
-                while (resultSet.next()) {
-                    Supplier supplier = new Supplier(resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getString("description"));
-                    suppliers.add(supplier);
-                }
-                return suppliers;
-
-            } catch (SQLException e) {
-
-            } catch (IOException e) {
-                e.printStackTrace();
+        try (PreparedStatement pstmt = dbConnection.getConnection().prepareStatement(QUERY);
+             ResultSet resultSet = pstmt.executeQuery()) {
+            while (resultSet.next()) {
+                suppliers.add(createSupplier(resultSet));
             }
-            return null;
+            return suppliers;
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
         }
+        return null;
+    }
+
+    private static Supplier createSupplier(ResultSet resultSet) throws SQLException {
+        return new Supplier(resultSet.getInt("id"),
+                resultSet.getString("name"),
+                resultSet.getString("description"));
+
+    }
 }
 
 

@@ -4,8 +4,10 @@ import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.ProductDaoMem;
+//import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.dao.implementation.SupplierDaoMem;
+import com.codecool.shop.dao.jdbc.ProductCategoryDaoJdbc;
+import com.codecool.shop.dao.jdbc.ProductDaoJdbc;
 import com.codecool.shop.dao.jdbc.SupplierDaoJdbc;
 import com.codecool.shop.model.Cart;
 import com.codecool.shop.model.Product;
@@ -33,7 +35,7 @@ public class ProductController {
     }
 
     public ModelAndView renderProducts(Request req, Response res) {
-        ProductDao productDataStore = ProductDaoMem.getInstance();
+        ProductDao productDataStore = new ProductDaoJdbc();
 
         Map<String, Object> params = getCommonParams(req);
         params.put("products", productDataStore.getAll());
@@ -42,8 +44,8 @@ public class ProductController {
 
     public ModelAndView renderProductsbyCategory(Request req, Response res) {
         int categoryID = Integer.parseInt(req.params(":id"));
-        ProductDao productDataStore = ProductDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+        ProductDao productDataStore = new ProductDaoJdbc();
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJdbc.getInstance();
 
         Map<String, Object> params = getCommonParams(req);
         params.put("products", productDataStore.getBy(productCategoryDataStore.find(categoryID)));
@@ -52,7 +54,7 @@ public class ProductController {
 
     public ModelAndView renderProductsbySupplier(Request req, Response res) {
         int supplierID = Integer.parseInt(req.params(":id"));
-        ProductDao productDataStore = ProductDaoMem.getInstance();
+        ProductDao productDataStore = new ProductDaoJdbc();
         SupplierDao productSupplierDataStore = SupplierDaoJdbc.getInstance();
 
         Map<String, Object> params = getCommonParams(req);
@@ -63,7 +65,7 @@ public class ProductController {
     private Map<String, Object> getCommonParams(Request req) {
         CartController cartController = CartController.getInstance();
         SupplierDao productSupplierDataStore = SupplierDaoJdbc.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJdbc.getInstance();
         Cart cartDataStore = cartController.getCart(req);
 
         Map<String, Object> params = new HashMap<>();

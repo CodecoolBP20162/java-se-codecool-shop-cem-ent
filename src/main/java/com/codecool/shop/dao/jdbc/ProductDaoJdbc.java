@@ -16,19 +16,25 @@ public class ProductDaoJdbc implements ProductDao {
 
     @Override
     public void add(Product product) {
-        try{
-            DbConnection connection = new DbConnection();
-            Connection db = connection.getConnection();
-            String query = "INSERT INTO product VALUES(?, ?, ?, ?, ?, ?)";
-            PreparedStatement ps = db.prepareStatement(query);
+        String query = "INSERT INTO products (name, price, currency, description, productcategory, supplier) VALUES(?, ?, ?, ?, ?, ?)";
+
+        String[] columnsToReturn = {"id"};
+
+        try (Connection db = new DbConnection().getConnection();
+                PreparedStatement ps = db.prepareStatement(query, columnsToReturn)) {
+
             ps.setString(1, product.getName());
-            ps.setString(2, product.getPrice());
+            ps.setDouble(2, product.getDefaultPrice());
             ps.setString(3, product.getDefaultCurrency().toString());
             ps.setString(4, product.getDescription());
-            ps.setInt(5, product.getSupplier().getId());
-            ps.setInt(6, product.getProductCategory().getId());
+            ps.setInt(5, product.getProductCategory().getId());
+            ps.setInt(6, product.getSupplier().getId());
+            ps.executeUpdate();
 
-            ps.executeQuery();
+            // to get id of created row
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+            generatedKeys.next();
+            product.setId(generatedKeys.getInt("id"));
         }
         catch (IOException|SQLException ex) {
             ex.printStackTrace();
@@ -50,7 +56,8 @@ public class ProductDaoJdbc implements ProductDao {
             ResultSet resultSet = statement.executeQuery(query);
 
             if (resultSet.next()){
-                Product product = new Product(resultSet.getString("name"),
+                Product product = new Product(resultSet.getInt("id"),
+                        resultSet.getString("name"),
                         resultSet.getFloat("price"),
                         resultSet.getString("currency"),
                         resultSet.getString("description"),
@@ -85,8 +92,9 @@ public class ProductDaoJdbc implements ProductDao {
             Statement statement = db.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
 
-            if (resultSet.next()){
-                Product product = new Product(resultSet.getString("name"),
+            while (resultSet.next()){
+                Product product = new Product(resultSet.getInt("id"),
+                        resultSet.getString("name"),
                         resultSet.getFloat("price"),
                         resultSet.getString("currency"),
                         resultSet.getString("description"),
@@ -112,8 +120,9 @@ public class ProductDaoJdbc implements ProductDao {
             Statement statement = db.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
 
-            if (resultSet.next()){
-                Product product = new Product(resultSet.getString("name"),
+            while (resultSet.next()){
+                Product product = new Product(resultSet.getInt("id"),
+                        resultSet.getString("name"),
                         resultSet.getFloat("price"),
                         resultSet.getString("currency"),
                         resultSet.getString("description"),
@@ -139,8 +148,9 @@ public class ProductDaoJdbc implements ProductDao {
             Statement statement = db.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
 
-            if (resultSet.next()){
-                Product product = new Product(resultSet.getString("name"),
+            while (resultSet.next()){
+                Product product = new Product(resultSet.getInt("id"),
+                        resultSet.getString("name"),
                         resultSet.getFloat("price"),
                         resultSet.getString("currency"),
                         resultSet.getString("description"),
