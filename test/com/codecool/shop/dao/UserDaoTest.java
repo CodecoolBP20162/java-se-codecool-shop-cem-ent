@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserDaoTest {
 
+
     static Stream<Arguments> arguments(){
         return Stream.of(
                 ObjectArrayArguments.create(UserDaoJdbc.getInstance()),
@@ -37,21 +38,25 @@ class UserDaoTest {
         assertEquals(admin.toString(), userDataStore.getAll().get(tempsize-1).toString());
     }
 
-    @Test
+
+    @ParameterizedTest
+    @MethodSource(names = { "arguments" })
     public void testFindUserById(UserDao userDataStore){
-        User user = new User("user", "pass", 3);
-        user.setId(3);
-        assertEquals(user.toString(), userDataStore.find(3).toString());
+        User user = new User("admin", "admin", 1);
+        user.setId(1);
+        assertEquals(user.toString(), userDataStore.find(1).toString());
     }
-    @Test
+
+    @ParameterizedTest
+    @MethodSource(names = { "arguments" })
     public void testFindUserByName(UserDao userDataStore){
-        User user = new User("user", "pass", 3);
-        user.setId(3);
+        User user = new User("user", "user", 2);
+        user.setId(2);
         assertEquals(user.toString(), userDataStore.find("user").toString());
     }
 
-    //needs to be looked at
-    @Test
+    @ParameterizedTest
+    @MethodSource(names = { "arguments" })
     public void testRemoveUser(UserDao userDataStore){
         int firstsize = userDataStore.getAll().size();
         userDataStore.remove(firstsize - 1);
@@ -59,7 +64,8 @@ class UserDaoTest {
         assertEquals(1, firstsize - secondsize);
     }
 
-    @Test
+    @ParameterizedTest
+    @MethodSource(names = { "arguments" })
     public void testGetAllUser(UserDao userDataStore){
         List<ProductCategory> user = new ArrayList<>();
         assertEquals(user, userDataStore.getAll());
