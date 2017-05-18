@@ -18,7 +18,6 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 public class Main {
 
 
-
     public static void main(String[] args) {
 
         TemplateEngine templateEngine = new ThymeleafTemplateEngine();
@@ -32,36 +31,34 @@ public class Main {
         port(8888);
 
         // populate some data for the memory storage
-
         //populateData();
-
 
         // Always add generic routes to the end
         get("/", productController::renderProducts, templateEngine);
         // Equivalent with above
 
         get("/index", (Request req, Response res) ->
-            productController.renderProducts(req, res), templateEngine);
+                productController.renderProducts(req, res), templateEngine);
 
         get("/cartview", (Request req, Response res) ->
-            templateEngine.render(cartController.renderCart(req, res))
+                templateEngine.render(cartController.renderCart(req, res))
         );
 
         get("/category/:id", (Request req, Response res) ->
-            templateEngine.render(productController.renderProductsbyCategory(req, res))
+                templateEngine.render(productController.renderProductsbyCategory(req, res))
         );
 
         get("/supplier/:id", (Request req, Response res) ->
-            templateEngine.render(productController.renderProductsbySupplier(req, res))
+                templateEngine.render(productController.renderProductsbySupplier(req, res))
         );
 
         get("/addtocart/:id", (Request req, Response res) ->
-            cartController.addItemToCart(req, res)
+                cartController.addItemToCart(req, res)
 
         );
 
         get("/login", (Request req, Response res) ->
-            templateEngine.render(loginController.renderLogin(req, res))
+                templateEngine.render(loginController.renderLogin(req, res))
         );
 
 
@@ -74,7 +71,7 @@ public class Main {
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
     }
-
+}
 
 //    private static void populateData() {
 //        ProductDao productDataStore = new ProductDaoJdbc();

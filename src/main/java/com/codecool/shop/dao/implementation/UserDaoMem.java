@@ -29,7 +29,7 @@ public class UserDaoMem implements UserDao{
         DATA.add(user);
     }
 
-
+    @Override
     public User find(String name) {
         return DATA.stream().filter(t -> t.getName().equals(name)).findFirst().orElse(null);
     }
