@@ -32,7 +32,9 @@ public class Main {
         port(8888);
 
         // populate some data for the memory storage
-//        populateData();
+
+        //populateData();
+
 
         // Always add generic routes to the end
         get("/", productController::renderProducts, templateEngine);
@@ -72,6 +74,7 @@ public class Main {
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
     }
+
 
 //    private static void populateData() {
 //        ProductDao productDataStore = new ProductDaoJdbc();
@@ -117,5 +120,3 @@ public class Main {
 //        User admin2 = new User("admin2", "admin2", 1);
 //        userDataStore.add(admin2);
 //    }
-
-}
