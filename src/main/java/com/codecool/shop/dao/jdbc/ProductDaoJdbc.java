@@ -54,7 +54,6 @@ public class ProductDaoJdbc implements ProductDao {
             PreparedStatement pstmt = dbConnection.getConnection().prepareStatement(query);
             pstmt.setInt(1, id);
             ResultSet resultSet = pstmt.executeQuery();
-            pstmt.close();
             return (resultSet.next()) ? createProduct(resultSet) : null;
         } catch (IOException | SQLException ex) {
             ex.printStackTrace();
@@ -69,7 +68,6 @@ public class ProductDaoJdbc implements ProductDao {
             PreparedStatement pstmt = dbConnection.getConnection().prepareStatement(query);
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
-            pstmt.close();
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
@@ -104,7 +102,6 @@ public class ProductDaoJdbc implements ProductDao {
             while (resultSet.next()) {
                 productList.add(createProduct(resultSet));
             }
-            pstmt.close();
             return productList;
         } catch (SQLException | IOException e) {
             e.printStackTrace();
@@ -123,7 +120,6 @@ public class ProductDaoJdbc implements ProductDao {
             while (resultSet.next()) {
                 productList.add(createProduct(resultSet));
             }
-            pstmt.close();
             return productList;
         } catch (SQLException | IOException e) {
             e.printStackTrace();

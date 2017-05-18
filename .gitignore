@@ -7,7 +7,6 @@
 .idea/
 target/
 *.iml
-connect.txt
 connection.properties
 
 # Mobile Tools for Java (J2ME)

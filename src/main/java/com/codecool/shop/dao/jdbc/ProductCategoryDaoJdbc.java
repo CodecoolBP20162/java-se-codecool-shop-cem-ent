@@ -64,7 +64,6 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
             PreparedStatement pstmt = dbConnection.getConnection().prepareStatement(query);
             pstmt.setInt(1, id);
             ResultSet resultSet = pstmt.executeQuery();
-            pstmt.close();
             return (resultSet.next()) ? createProductCategory(resultSet) : null;
         } catch (SQLException | IOException e) {
             e.printStackTrace();
@@ -79,7 +78,6 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
             PreparedStatement pstmt = dbConnection.getConnection().prepareStatement(query);
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
-            pstmt.close();
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
