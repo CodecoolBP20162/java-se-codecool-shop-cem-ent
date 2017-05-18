@@ -28,15 +28,16 @@ public class Cart{
         lineItems.remove(findLineItem(lineItem));
     }
 
+
     private LineItem findLineItem(LineItem lineItem) {
         return lineItems.stream()
-                .filter(l -> l.getProduct().equals(lineItem.getProduct()))
+                .filter(l -> l.getProduct().getId() == lineItem.getProduct().getId())
                 .findFirst().orElse(null);
     }
 
     private boolean hasProduct(LineItem lineItem) {
         return lineItems.stream()
-                .anyMatch(li -> Objects.equals(li.getProduct(), lineItem.getProduct()));
+                .anyMatch(li -> li.getProduct().getId() == lineItem.getProduct().getId());
     }
 
     public float getSum() {
