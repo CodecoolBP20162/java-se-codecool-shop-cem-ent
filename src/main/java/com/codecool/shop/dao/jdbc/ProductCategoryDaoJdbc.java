@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ProductCategoryDaoJdbc implements ProductCategoryDao {
 
-    DbConnection connection = new DbConnection();
+    DbConnection dbConnection = new DbConnection();
     private static ProductCategoryDaoJdbc instance = null;
 
 
@@ -31,18 +31,25 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
 
     @Override
     public void add(ProductCategory category) {
-        try{
-            DbConnection connection = new DbConnection();
-            Connection db = connection.getConnection();
-            String query = "INSERT INTO product VALUES(?, ?, ?)";
-            PreparedStatement ps = db.prepareStatement(query);
+        String query = "INSERT INTO productcategories (name, department, description) VALUES(?, ?, ?)";
+        String[] columnsToReturn = {"id"};
+
+        // connection and preparedstatement are autoclosable, if instantiated in try
+
+        try (Connection connection =  dbConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(query, columnsToReturn)) {
             ps.setString(1, category.getName());
             ps.setString(2, category.getDepartment());
             ps.setString(3, category.getDescription());
 
-            ps.executeQuery();
+            ps.executeUpdate();
+
+            // to get id of created row
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+            generatedKeys.next();
+            category.setId(generatedKeys.getInt("id"));
         }
-        catch (IOException |SQLException ex) {
+        catch (IOException | SQLException ex) {
             ex.printStackTrace();
         }
     }
@@ -60,7 +67,8 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
             ResultSet resultSet = statement.executeQuery(query);
 
             if (resultSet.next()){
-                ProductCategory category = new ProductCategory(resultSet.getString("name"),
+                ProductCategory category = new ProductCategory(resultSet.getInt("id"),
+                        resultSet.getString("name"),
                         resultSet.getString("department"),
                         resultSet.getString("description"));
                 return category;
@@ -89,10 +97,13 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
             Statement statement = db.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
 
-            if (resultSet.next()){
-                ProductCategory category = new ProductCategory(resultSet.getString("name"),
+            while (resultSet.next()){
+                ProductCategory category = new ProductCategory(resultSet.getInt("id"),
+                        resultSet.getString("name"),
                         resultSet.getString("department"),
                         resultSet.getString("description"));
+
+
                 productCategoryList.add(category);
             }
         } catch (IOException | SQLException ex) {
