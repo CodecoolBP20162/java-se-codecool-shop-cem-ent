@@ -4,6 +4,7 @@ import com.codecool.shop.dao.implementation.SupplierDaoMem;
 import com.codecool.shop.dao.jdbc.SupplierDaoJdbc;
 import com.codecool.shop.model.Supplier;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,10 +15,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SupplierDaoTest {
 
-    private static SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
-    //private static SupplierDao supplierDataStore = SupplierDaoJdbc.getInstance();
-    private static Supplier amazon = new Supplier("Amazon", "Digital content and services");
-    private static Supplier lenovo = new Supplier("Lenovo", "Computers");
+
+        private static SupplierDao supplierDataStore = SupplierDaoJdbc.getInstance();
+        //private static SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+        static Supplier amazon = new Supplier("Amazon", "Digital content and services");
+        static Supplier lenovo = new Supplier("Lenovo", "Computers");
 
     @BeforeEach
     void initializeTestRequirements(){
@@ -35,27 +37,34 @@ class SupplierDaoTest {
     void testAddNewSupplier(){
         int size = supplierDataStore.getAll().size();
         supplierDataStore.add(amazon);
-        assertEquals(amazon.getId(), supplierDataStore.getAll().get(size).getId());
+        List<Supplier> vmi = supplierDataStore.getAll();
+        assertEquals(amazon.getName(), vmi.get(size).getName());
     }
 
     @Test
     void testFindSupplier(){
-        int size = supplierDataStore.getAll().size();
+        supplierDataStore.add(amazon);
         supplierDataStore.add(lenovo);
-        assertEquals(lenovo.getName(), supplierDataStore.find(size).getName());
+        int id = amazon.getId();
+        assertEquals(amazon.getName(), supplierDataStore.find(id).getName());
     }
+
 
     @Test
     void testRemoveSupplier(){
         supplierDataStore.add(amazon);
-        supplierDataStore.remove(1);
+        supplierDataStore.remove(amazon.getId());
         assertEquals(0, supplierDataStore.getAll().size());
     }
 
     @Test
     void testGetAllSuppliers(){
+        supplierDataStore.add(amazon);
+        supplierDataStore.add(lenovo);
         List<Supplier> suppliers = new ArrayList<>();
-        assertEquals(suppliers, supplierDataStore.getAll());
+        suppliers.add(amazon);
+        suppliers.add(lenovo);
+        assertEquals(suppliers.size(), supplierDataStore.getAll().size());
     }
 
 

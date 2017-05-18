@@ -36,6 +36,6 @@ currency VARCHAR (10),
 description VARCHAR (200),
 productcategory int,
 supplier int,
-FOREIGN KEY (productcategory) REFERENCES productcategories(id),
-FOREIGN KEY (supplier) REFERENCES suppliers(id)
+FOREIGN KEY (productcategory) REFERENCES productcategories(id) ON DELETE CASCADE,
+FOREIGN KEY (supplier) REFERENCES suppliers(id) ON DELETE CASCADE
 );
