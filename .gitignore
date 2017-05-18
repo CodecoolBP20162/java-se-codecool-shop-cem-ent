@@ -8,6 +8,7 @@
 target/
 *.iml
 connection.properties
+test_db_connection.properties
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
