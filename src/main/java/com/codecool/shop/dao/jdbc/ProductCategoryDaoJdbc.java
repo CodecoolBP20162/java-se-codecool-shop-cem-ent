@@ -58,32 +58,29 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
     @Override
     public ProductCategory find(int id) {
 
-        String query = "SELECT * FROM productcategories WHERE id=" + id + ";";
+        String query = "SELECT * FROM productcategories WHERE id=?;";
 
         try {
-            DbConnection connection = new DbConnection();
-            Connection db = connection.getConnection();
-            Statement statement = db.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-
-            if (resultSet.next()){
-                ProductCategory category = new ProductCategory(resultSet.getInt("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("department"),
-                        resultSet.getString("description"));
-                return category;
-            }
-        } catch (IOException | SQLException ex) {
-            ex.printStackTrace();
+            PreparedStatement pstmt = dbConnection.getConnection().prepareStatement(query);
+            pstmt.setInt(1, id);
+            ResultSet resultSet = pstmt.executeQuery();
+            return (resultSet.next()) ? createProductCategory(resultSet) : null;
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
     @Override
     public void remove(int id) {
-        String query = "DELETE FROM productcategories WHERE id=" + id + ";";
-        DbConnection connection = new DbConnection();
-        connection.executeQuery(query);
+        String query = "DELETE FROM productcategories WHERE id=?;";
+        try {
+            PreparedStatement pstmt = dbConnection.getConnection().prepareStatement(query);
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -91,24 +88,22 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
         LinkedList<ProductCategory> productCategoryList = new LinkedList<>();
         String query = "SELECT * FROM productcategories";
 
-        try {
-            DbConnection connection = new DbConnection();
-            Connection db = connection.getConnection();
-            Statement statement = db.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-
-            while (resultSet.next()){
-                ProductCategory category = new ProductCategory(resultSet.getInt("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("department"),
-                        resultSet.getString("description"));
-
-
-                productCategoryList.add(category);
+        try (PreparedStatement pstmt = dbConnection.getConnection().prepareStatement(query);
+             ResultSet resultSet = pstmt.executeQuery()) {
+            while (resultSet.next()) {
+                productCategoryList.add(createProductCategory(resultSet));
             }
-        } catch (IOException | SQLException ex) {
-            ex.printStackTrace();
+            return productCategoryList;
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
         }
-        return productCategoryList;
+        return null;
+    }
+
+    private static ProductCategory createProductCategory(ResultSet resultSet) throws SQLException {
+        return new ProductCategory(resultSet.getInt("id"),
+                resultSet.getString("name"),
+                resultSet.getString("department"),
+                resultSet.getString("description"));
     }
 }
