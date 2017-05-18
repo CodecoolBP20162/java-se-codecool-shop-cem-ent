@@ -7,6 +7,7 @@ public interface UserDao {
 
     void add(User user);
     User find(int id);
+    User find(String name);
     void remove(int id);
 
     List<User> getAll();

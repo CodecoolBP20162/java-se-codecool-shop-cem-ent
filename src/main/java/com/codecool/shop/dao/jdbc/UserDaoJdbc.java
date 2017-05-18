@@ -30,6 +30,7 @@ public class UserDaoJdbc implements UserDao {
     public void add(User user) {
         //get the highest ID in the user DB.
         //propably not needed as the primary key is incrementing itself.
+        /*
         String query = "SELECT id FROM users ORDER BY id DESC LIMIT 1";
 
         try (Connection conn = connection.getConnection();
@@ -45,17 +46,23 @@ public class UserDaoJdbc implements UserDao {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        */
         //insert the new user into the DB.
 
         final String INSERT_QUERY = "INSERT INTO users (name, password, rank) VALUES (?,?,?);";
-
+        String[] columnsToReturn = {"id"};
         try {
-            PreparedStatement pstmt = connection.getConnection().prepareStatement(INSERT_QUERY);
+            PreparedStatement pstmt = connection.getConnection().prepareStatement(INSERT_QUERY, columnsToReturn);
             pstmt.setString(1, user.getName());
             pstmt.setString(2, user.getPassword());
             pstmt.setInt(3, user.getRank());
             pstmt.executeUpdate();
+
+            // to get id of created row
+            ResultSet generatedKeys = pstmt.getGeneratedKeys();
+            generatedKeys.next();
+            user.setId(generatedKeys.getInt("id"));
+
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -75,6 +82,7 @@ public class UserDaoJdbc implements UserDao {
                 User result = new User(resultSet.getString("name"),
                         resultSet.getString("password"),
                         resultSet.getInt("rank"));
+                result.setId(id);
                 return result;
             } else {
                 return null;
@@ -88,6 +96,7 @@ public class UserDaoJdbc implements UserDao {
         return null;
     }
 
+    @Override
     public User find(String name) {
         String query = "SELECT * FROM users WHERE name ='" + name + "';";
         try (Connection conn = connection.getConnection();
@@ -146,18 +155,21 @@ public class UserDaoJdbc implements UserDao {
         try (Connection conn = connection.getConnection();
              Statement statement = conn.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
-            if (resultSet.first()){
-                resultSet.beforeFirst();
+//            if (resultSet.first()){
+  //              resultSet.beforeFirst();
                 List<User> result = new ArrayList<>();
-                while (resultSet.next()){
-                    result.add(new User(resultSet.getString("name"),
+                while (resultSet.next()) {
+                    User tempuser = new User(resultSet.getString("name"),
                             resultSet.getString("password"),
-                            resultSet.getInt("rank")));
-                    return result;
+                            resultSet.getInt("rank"));
+                    tempuser.setId(resultSet.getInt("id"));
+                    result.add(tempuser);
                 }
-            } else {
-                return null;
-            }
+                return result;
+
+     //       } else {
+       //         return null;
+         //   }
 
         } catch (SQLException e) {
             e.printStackTrace();
