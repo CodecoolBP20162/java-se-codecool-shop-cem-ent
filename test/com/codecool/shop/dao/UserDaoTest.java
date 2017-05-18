@@ -59,7 +59,7 @@ class UserDaoTest {
     @MethodSource(names = { "arguments" })
     public void testRemoveUser(UserDao userDataStore){
         int firstsize = userDataStore.getAll().size();
-        userDataStore.remove(firstsize - 1);
+        userDataStore.remove((firstsize==1)?1: firstsize - 1);
         int secondsize = userDataStore.getAll().size();
         assertEquals(1, firstsize - secondsize);
     }
