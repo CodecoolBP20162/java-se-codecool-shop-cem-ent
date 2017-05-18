@@ -96,6 +96,7 @@ public class UserDaoJdbc implements UserDao {
         return null;
     }
 
+    @Override
     public User find(String name) {
         String query = "SELECT * FROM users WHERE name ='" + name + "';";
         try (Connection conn = connection.getConnection();
@@ -154,8 +155,8 @@ public class UserDaoJdbc implements UserDao {
         try (Connection conn = connection.getConnection();
              Statement statement = conn.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
-            if (resultSet.first()){
-                resultSet.beforeFirst();
+//            if (resultSet.first()){
+  //              resultSet.beforeFirst();
                 List<User> result = new ArrayList<>();
                 while (resultSet.next()) {
                     User tempuser = new User(resultSet.getString("name"),
@@ -166,9 +167,9 @@ public class UserDaoJdbc implements UserDao {
                 }
                 return result;
 
-            } else {
-                return null;
-            }
+     //       } else {
+       //         return null;
+         //   }
 
         } catch (SQLException e) {
             e.printStackTrace();
