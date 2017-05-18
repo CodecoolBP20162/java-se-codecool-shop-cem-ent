@@ -5,15 +5,26 @@ import com.codecool.shop.controller.CartController;
 import com.codecool.shop.controller.LoginController;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
-import com.codecool.shop.dao.implementation.*;
+import com.codecool.shop.dao.jdbc.ProductCategoryDaoJdbc;
+import com.codecool.shop.dao.jdbc.ProductDaoJdbc;
+import com.codecool.shop.dao.jdbc.SupplierDaoJdbc;
+import com.codecool.shop.dao.jdbc.UserDaoJdbc;
 import com.codecool.shop.model.*;
 import spark.Request;
 import spark.Response;
+import spark.TemplateEngine;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 public class Main {
 
+
+
     public static void main(String[] args) {
+
+        TemplateEngine templateEngine = new ThymeleafTemplateEngine();
+        CartController cartController = CartController.getInstance();
+        ProductController productController = ProductController.getInstance();
+        LoginController loginController = LoginController.getInstance();
 
         // default server settings
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
@@ -21,93 +32,92 @@ public class Main {
         port(8888);
 
         // populate some data for the memory storage
-        populateData();
+
+        //populateData();
 
 
         // Always add generic routes to the end
-        get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
+        get("/", productController::renderProducts, templateEngine);
         // Equivalent with above
 
         get("/index", (Request req, Response res) ->
-            new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res))
-        );
+            productController.renderProducts(req, res), templateEngine);
 
         get("/cartview", (Request req, Response res) ->
-            new ThymeleafTemplateEngine().render(CartController.renderCart(req, res))
+            templateEngine.render(cartController.renderCart(req, res))
         );
 
         get("/category/:id", (Request req, Response res) ->
-            new ThymeleafTemplateEngine().render(ProductController.renderProductsbyCategory(req, res))
+            templateEngine.render(productController.renderProductsbyCategory(req, res))
         );
 
         get("/supplier/:id", (Request req, Response res) ->
-            new ThymeleafTemplateEngine().render(ProductController.renderProductsbySupplier(req, res))
+            templateEngine.render(productController.renderProductsbySupplier(req, res))
         );
 
-        get("/addtocart/:id", (Request req, Response res) -> {
-            return CartController.addItemToCart(req, res);
+        get("/addtocart/:id", (Request req, Response res) ->
+            cartController.addItemToCart(req, res)
 
-        });
+        );
 
-        get("/login", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(LoginController.renderLogin(req, res));
-        });
+        get("/login", (Request req, Response res) ->
+            templateEngine.render(loginController.renderLogin(req, res))
+        );
 
 
-        post("/login", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(LoginController.renderLoginPost(req, res));
-        });
+        post("/login", (Request req, Response res) ->
+                templateEngine.render(loginController.renderLoginPost(req, res))
+        );
 
-        get("/addtocart/:id", CartController::addItemToCart);
+        get("/addtocart/:id", cartController::addItemToCart);
 
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
     }
 
-    private static void populateData() {
-        ProductDao productDataStore = ProductDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-        SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
-        UserDao userDataStore = UserDaoMem.getInstance();
 
-        //setting up a new supplier
-        Supplier amazon = new Supplier("Amazon", "Digital content and services");
-        supplierDataStore.add(amazon);
-        Supplier lenovo = new Supplier("Lenovo", "Computers");
-        supplierDataStore.add(lenovo);
-        Supplier apple = new Supplier("Apple", "Luxury products");
-        supplierDataStore.add(apple);
-        Supplier microsoft = new Supplier("Microsoft", "IT products");
-        supplierDataStore.add(microsoft);
-
-        //setting up a new product category
-        ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.");
-        productCategoryDataStore.add(tablet);
-        ProductCategory phone = new ProductCategory("Phone", "Hardware", "Moblie phones. Your mother can ask you what you eaten for lunch through these devices.");
-        productCategoryDataStore.add(phone);
-        ProductCategory notebook = new ProductCategory("Notebook", "Hardware", "Like a tablet but with keyboard");
-        productCategoryDataStore.add(notebook);
-        ProductCategory softwares = new ProductCategory("Software", "Software", "Programs and subscriptions");
-        productCategoryDataStore.add(softwares);
-        ProductCategory parts = new ProductCategory("Parts", "Parts", "Parts for different types of products.");
-        productCategoryDataStore.add(parts);
-
-
-        //setting up products and printing it
-        productDataStore.add(new Hardware("Amazon Fire", 49.9f, "USD", "Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.", tablet, amazon, 12));
-        productDataStore.add(new Hardware("Lenovo IdeaPad Miix 700", 479, "USD", "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.", tablet, lenovo, 12));
-        productDataStore.add(new Hardware("Amazon Fire HD 8", 89, "USD", "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", tablet, amazon, 12));
-        productDataStore.add(new Hardware("Macbook Pro 2017", 2999.99f, "USD", "Apple's latest notebook is a great value for media consumption.", notebook, apple, 24));
-        productDataStore.add(new Hardware("Iphone 7", 899.9f, "USD", "Latest product of Apple.", phone, apple, 12));
-        productDataStore.add(new Software("Microsoft Office subscription", 99.9f, "USD", "Microsoft Office is an office suite of applications, servers, and services developed by Microsoft.", softwares, microsoft, 12));
-        productDataStore.add(new Parts("Battery for Iphone 7", 69.9f, "USD", "New battery to replace Iphone 7's old battery.", parts, apple));
-
-        //Setting up users
-        User admin = new User("admin", "admin", "admin Account");
-        userDataStore.add(admin);
-        User admin2 = new User("admin2", "admin2", "admin Account");
-        userDataStore.add(admin2);
-
-    }
-
+//    private static void populateData() {
+//        ProductDao productDataStore = new ProductDaoJdbc();
+//        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJdbc.getInstance();
+//        SupplierDao supplierDataStore = SupplierDaoJdbc.getInstance();
+//        UserDao userDataStore = UserDaoJdbc.getInstance();
+//
+//        //setting up a new supplier
+//        Supplier amazon = new Supplier("Amazon", "Digital content and services");
+//        supplierDataStore.add(amazon);
+//        Supplier lenovo = new Supplier("Lenovo", "Computers");
+//        supplierDataStore.add(lenovo);
+//        Supplier apple = new Supplier("Apple", "Luxury products");
+//        supplierDataStore.add(apple);
+//        Supplier microsoft = new Supplier("Microsoft", "IT products");
+//        supplierDataStore.add(microsoft);
+//
+//        //setting up a new product category
+//        ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.");
+//        productCategoryDataStore.add(tablet);
+//        ProductCategory phone = new ProductCategory("Phone", "Hardware", "Moblie phones. Your mother can ask you what you eaten for lunch through these devices.");
+//        productCategoryDataStore.add(phone);
+//        ProductCategory notebook = new ProductCategory("Notebook", "Hardware", "Like a tablet but with keyboard");
+//        productCategoryDataStore.add(notebook);
+//        ProductCategory softwares = new ProductCategory("Software", "Software", "Programs and subscriptions");
+//        productCategoryDataStore.add(softwares);
+//        ProductCategory parts = new ProductCategory("Parts", "Parts", "Parts for different types of products.");
+//        productCategoryDataStore.add(parts);
+//
+//
+//        //setting up products and printing it
+//        productDataStore.add(new Hardware("Amazon Fire", 49.9f, "USD", "Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.", tablet, amazon, 12));
+//        productDataStore.add(new Hardware("Lenovo IdeaPad Miix 700", 479, "USD", "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.", tablet, lenovo, 12));
+//        productDataStore.add(new Hardware("Amazon Fire HD 8", 89, "USD", "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", tablet, amazon, 12));
+//        productDataStore.add(new Hardware("Macbook Pro 2017", 2999.99f, "USD", "Apple's latest notebook is a great value for media consumption.", notebook, apple, 24));
+//        productDataStore.add(new Hardware("Iphone 7", 899.9f, "USD", "Latest product of Apple.", phone, apple, 12));
+//        productDataStore.add(new Software("Microsoft Office subscription", 99.9f, "USD", "Microsoft Office is an office suite of applications, servers, and services developed by Microsoft.", softwares, microsoft, 12));
+//        productDataStore.add(new Parts("Battery for Iphone 7", 69.9f, "USD", "New battery to replace Iphone 7's old battery.", parts, apple));
+//
+//        //Setting up users
+//        User admin = new User("admin", "admin", 1);
+//        userDataStore.add(admin);
+//        User admin2 = new User("admin2", "admin2", 1);
+//        userDataStore.add(admin2);
+//
 }
