@@ -50,9 +50,9 @@ class UserDaoTest {
     @ParameterizedTest
     @MethodSource(names = { "arguments" })
     public void testFindUserByName(UserDao userDataStore){
-        User user = new User("user", "user", 2);
-        user.setId(2);
-        assertEquals(user.toString(), userDataStore.find("user").toString());
+        User user = new User("admin", "admin", 1);
+        user.setId(1);
+        assertEquals(user.toString(), userDataStore.find("admin").toString());
     }
 
     @ParameterizedTest

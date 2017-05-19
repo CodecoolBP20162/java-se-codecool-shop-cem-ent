@@ -135,7 +135,7 @@ public class UserDaoJdbc implements UserDao {
         }
         }
         */
-        final String DELETE_QUERY = "DELETE FROM users WHERE (id) VALUES (?)";
+        final String DELETE_QUERY = "DELETE FROM users WHERE id =?;";
 
         try {
             PreparedStatement pstmt = connection.getConnection().prepareStatement(DELETE_QUERY);
