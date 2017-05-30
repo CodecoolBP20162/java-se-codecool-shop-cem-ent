@@ -3,7 +3,10 @@
 <head>
     <title>Login page</title>
 </head>
+<div th:replace="head :: copy"></div>
 <body>
+<div th:replace="menu :: copy"></div>
+<div class="container" id="login" style="width:auto; margin:0 auto;">
 <h1>Login page</h1>
 <form taction="/login" method="post">
     <label for="username">Username</label>:
@@ -13,5 +16,6 @@
     <input type="submit" value="Log in" />
 </form>
 <a href="/"> return to  home page </a>
+</div>
 </body>
 </html>

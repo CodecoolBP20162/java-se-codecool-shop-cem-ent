@@ -72,6 +72,7 @@ public class ProductController {
         params.put("categories", productCategoryDataStore.getAll());
         params.put("suppliers", productSupplierDataStore.getAll());
         params.put("numberOfProdutsInCart", cartDataStore.getAllQuantity());
+        params.put("user", req.session().attribute("user"));
         return params;
     }
 }

@@ -50,4 +50,5 @@ public class ProductCategory extends BaseModel {
                 this.department,
                 this.description);
     }
+
 }

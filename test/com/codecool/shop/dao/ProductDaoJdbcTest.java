@@ -31,6 +31,7 @@ class ProductDaoJdbcTest {
     public void initializeTestRequirements(){
         List<Integer> productIdList = new ArrayList<>();
         for (Product product: productDataStore.getAll()) {
+            productDataStore.remove(product.getId());
             productIdList.add(product.getId());
         }
         for (Integer id: productIdList){

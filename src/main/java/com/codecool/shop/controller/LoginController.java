@@ -2,6 +2,7 @@ package com.codecool.shop.controller;
 
 
 import com.codecool.shop.dao.implementation.UserDaoMem;
+import com.codecool.shop.dao.jdbc.UserDaoJdbc;
 import com.codecool.shop.model.User;
 import spark.ModelAndView;
 import spark.Request;
@@ -31,7 +32,7 @@ public class LoginController {
     }
 
     public ModelAndView renderLoginPost(Request req, Response res){
-        UserDaoMem userDataStore = UserDaoMem.getInstance();
+        UserDaoJdbc userDataStore = UserDaoJdbc.getInstance();
         User user = userDataStore.find(req.queryParams("username"));
         if (req.queryParams("username").equals(user.getName())){
             if (req.queryParams("password").equals(user.getPassword())) {

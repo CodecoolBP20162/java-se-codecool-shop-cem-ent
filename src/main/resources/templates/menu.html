@@ -3,17 +3,25 @@
 <div th:fragment="copy">
     <nav class="navigation">
         <div class="container">
-            <div class="pull-left">
-                <a href="/" class="home-icon">
 
+            <div class="pull-left">
+                <a th:href="${user != null} ? '/logout' : '/login'" class="login-icon col-lg-4">
+                    <img src=""
+                         th:attr="src=${user != null} ? '/img/logout.png' : '/img/login.jpg'" height="70" width="auto"></img></a>
+            </div>
+
+            <div class="pull-left col-lg-4">
+                <a href="/" class="home-icon">
                     <img src=""
                          th:attr="src='/img/cement.jpg'" height="70" width="auto"></img></a>
             </div>
 
+                <div id="welcome-text" class="col-lg-4">
+                   <p class="welcome-text" th:text="${user != null} ? ${user} : 'Welcome!'"></p>
+                </div>
+
                 <div class="cart-field pull-right">
                     <div>
-
-
                             <div id="cart-counter" class="col-lg-8"
                                  th:text="${numberOfProdutsInCart}"></div>
                             <a href="/cartview" class="cartbutton col-lg-4 pull-right "><span
