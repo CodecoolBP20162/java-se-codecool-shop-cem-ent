@@ -66,6 +66,10 @@ public class Main {
                 templateEngine.render(loginController.renderLoginPost(req, res))
         );
 
+        get("/logout", (Request req, Response res) ->
+                templateEngine.render(loginController.renderLogout(req, res))
+        );
+
         get("/addtocart/:id", cartController::addItemToCart);
 
         // Add this line to your project to enable the debug screen

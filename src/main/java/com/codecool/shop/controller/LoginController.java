@@ -44,4 +44,11 @@ public class LoginController {
         }
         return renderLogin(req, res);
     }
+
+    public ModelAndView renderLogout(Request req, Response res){
+        req.session().removeAttribute("user");
+        res.redirect("/");
+        // this line is needed as a void return is not accepted.
+        return renderLogin(req, res);
+    }
 }
