@@ -3,6 +3,8 @@ package com.codecool.shop.dao.jdbc;
 import com.codecool.shop.DbConnection;
 import com.codecool.shop.dao.UserDao;
 import com.codecool.shop.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 import java.io.IOException;
@@ -14,6 +16,8 @@ import java.util.List;
  * this class is handling the user objects from and to the database
  */
 public class UserDaoJdbc implements UserDao {
+
+    private static final Logger logger = LoggerFactory.getLogger (UserDaoJdbc.class);
 
     DbConnection connection = new DbConnection();
     private static UserDaoJdbc instance = null;
@@ -72,6 +76,8 @@ public class UserDaoJdbc implements UserDao {
             generatedKeys.next();
             user.setId(generatedKeys.getInt("id"));
 
+            logger.info("user {} has been added", user.getName());
+
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -93,6 +99,7 @@ public class UserDaoJdbc implements UserDao {
         try (Connection conn = connection.getConnection();
              Statement statement = conn.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
+            logger.info("the user id {} has been searched for", id);
             if (resultSet.next()) {
                 User result = new User(resultSet.getString("name"),
                         resultSet.getString("password"),
@@ -128,6 +135,7 @@ public class UserDaoJdbc implements UserDao {
                         resultSet.getString("password"),
                         resultSet.getInt("rank"));
                 result.setId(resultSet.getInt("id"));
+                logger.info("user {} has been searched for", name);
                 return result;
             } else {
                 return null;
@@ -167,6 +175,9 @@ public class UserDaoJdbc implements UserDao {
             PreparedStatement pstmt = connection.getConnection().prepareStatement(DELETE_QUERY);
             pstmt.setInt(1, id);
             pstmt.executeQuery();
+
+            logger.warn("user {} has been removed", id);
+
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -195,6 +206,7 @@ public class UserDaoJdbc implements UserDao {
                     tempuser.setId(resultSet.getInt("id"));
                     result.add(tempuser);
                 }
+            logger.info("all users have been searched for.");
                 return result;
 
      //       } else {

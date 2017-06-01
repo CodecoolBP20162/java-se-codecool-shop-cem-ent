@@ -10,6 +10,8 @@ import com.codecool.shop.dao.jdbc.ProductDaoJdbc;
 import com.codecool.shop.dao.jdbc.SupplierDaoJdbc;
 import com.codecool.shop.dao.jdbc.UserDaoJdbc;
 import com.codecool.shop.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Response;
 import spark.TemplateEngine;
@@ -17,12 +19,13 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 public class Main {
 
+    private static final Logger logger = LoggerFactory.getLogger (Main.class);
+
     /**
      * This is the entry point of the program and handles the server start and all the requests.
      *
      * @param args is not used (but needed because of java)
      */
-
     public static void main(String[] args) {
 
         TemplateEngine templateEngine = new ThymeleafTemplateEngine();
@@ -35,6 +38,8 @@ public class Main {
         staticFileLocation("/public");
         port(8888);
 
+
+        logger.info ("the server is running");
         // populate some data for the memory storage
         //populateData();
 
