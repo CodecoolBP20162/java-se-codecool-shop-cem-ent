@@ -17,6 +17,11 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 public class Main {
 
+    /**
+     * This is the entry point of the program and handles the server start and all the requests.
+     *
+     * @param args is not used (but needed because of java)
+     */
 
     public static void main(String[] args) {
 

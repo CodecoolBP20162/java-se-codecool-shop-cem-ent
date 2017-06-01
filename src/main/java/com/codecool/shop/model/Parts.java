@@ -1,6 +1,8 @@
 package com.codecool.shop.model;
 
-
+/**
+ * not used as of now
+ */
 public class Parts extends Product implements Orderable {
     public Parts(String name, float defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
         super(name, defaultPrice, currencyString, description, productCategory, supplier );

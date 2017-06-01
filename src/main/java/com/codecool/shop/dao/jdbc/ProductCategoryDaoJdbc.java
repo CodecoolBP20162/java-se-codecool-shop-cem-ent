@@ -10,7 +10,9 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-
+/**
+ * this class is handling the product category objects from and to the database
+ */
 public class ProductCategoryDaoJdbc implements ProductCategoryDao {
 
     DbConnection dbConnection = new DbConnection();
@@ -20,6 +22,7 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
     private ProductCategoryDaoJdbc() {
     }
 
+    /** Only a single version is allowed.  */
     public static ProductCategoryDaoJdbc getInstance() {
         if (instance == null) {
             instance = new ProductCategoryDaoJdbc();
@@ -27,8 +30,11 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
         return instance;
     }
 
-
-
+    /**
+     * add product category to the memory dao
+     *
+     * @param category adds a category to the memory Array.
+     */
     @Override
     public void add(ProductCategory category) {
         String query = "INSERT INTO productcategories (name, department, description) VALUES(?, ?, ?)";
@@ -54,7 +60,12 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
         }
     }
 
-
+    /**
+     * find the product category according to the ID
+     *
+     * @param id the id to search for in the array
+     * @return returns the product
+     */
     @Override
     public ProductCategory find(int id) {
 
@@ -71,6 +82,11 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
         return null;
     }
 
+    /**
+     * removes the product
+     *
+     * @param id removes the product
+     */
     @Override
     public void remove(int id) {
         String query = "DELETE FROM productcategories WHERE id=?;";
@@ -83,6 +99,11 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
         }
     }
 
+    /**
+     * get all of the product category
+     *
+     * @return
+     */
     @Override
     public List<ProductCategory> getAll() {
         LinkedList<ProductCategory> productCategoryList = new LinkedList<>();

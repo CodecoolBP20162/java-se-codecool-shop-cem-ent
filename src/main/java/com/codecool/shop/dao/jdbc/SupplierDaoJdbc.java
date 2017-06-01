@@ -9,7 +9,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * this class is handling the supplier objects from and to the database
+ */
 public class SupplierDaoJdbc implements SupplierDao {
 
     private DbConnection dbConnection = new DbConnection();
@@ -19,6 +21,7 @@ public class SupplierDaoJdbc implements SupplierDao {
     private SupplierDaoJdbc() {
     }
 
+    /** Only a single version is allowed.  */
     public static SupplierDaoJdbc getInstance() {
         if (instance == null) {
             instance = new SupplierDaoJdbc();
@@ -26,6 +29,11 @@ public class SupplierDaoJdbc implements SupplierDao {
         return instance;
     }
 
+    /**
+     * add the supplier to the list
+     *
+     * @param supplier supplier to be added
+     */
     @Override
     public void add(Supplier supplier) {
 
@@ -49,6 +57,12 @@ public class SupplierDaoJdbc implements SupplierDao {
 
     }
 
+    /**
+     * find the supplier by id
+     *
+     * @param id to search for
+     * @return returns the supplier
+     */
     @Override
     public Supplier find(int id) {
 
@@ -64,6 +78,11 @@ public class SupplierDaoJdbc implements SupplierDao {
         return null;
     }
 
+    /**
+     * removes the supplier
+     *
+     * @param id to remove
+     */
     @Override
     public void remove(int id) {
         String QUERY = "DELETE FROM suppliers WHERE id =?;";
@@ -76,6 +95,11 @@ public class SupplierDaoJdbc implements SupplierDao {
         }
     }
 
+    /**
+     * get all suppliers
+     *
+     * @return a list of suppliers
+     */
     @Override
     public List<Supplier> getAll() {
 

@@ -22,8 +22,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This is the product controller
+ *
+ * This handles all the products.
+ */
 public class ProductController {
 
+    /** Only a single version is allowed.  */
     private static ProductController instance = null;
     private ProductController() {}
 
@@ -34,6 +40,13 @@ public class ProductController {
         return instance;
     }
 
+    /**
+     * renders the products
+     *
+     * @param req the request data from the client
+     * @param res the response data from the clent
+     * @return the index.html data not ordered
+     */
     public ModelAndView renderProducts(Request req, Response res) {
         ProductDao productDataStore = new ProductDaoJdbc();
 
@@ -42,6 +55,13 @@ public class ProductController {
         return new ModelAndView(params, "product/index");
     }
 
+    /**
+     * renders the products
+     *
+     * @param req the request data from the client
+     * @param res the response data from the clent
+     * @return the index.html data ordered by category
+     */
     public ModelAndView renderProductsbyCategory(Request req, Response res) {
         int categoryID = Integer.parseInt(req.params(":id"));
         ProductDao productDataStore = new ProductDaoJdbc();
@@ -52,6 +72,13 @@ public class ProductController {
         return new ModelAndView(params, "product/index");
     }
 
+    /**
+     * renders the products
+     *
+     * @param req the request data from the client
+     * @param res the response data from the clent
+     * @return the index.html data ordered by supplier
+     */
     public ModelAndView renderProductsbySupplier(Request req, Response res) {
         int supplierID = Integer.parseInt(req.params(":id"));
         ProductDao productDataStore = new ProductDaoJdbc();
@@ -62,6 +89,12 @@ public class ProductController {
         return new ModelAndView(params, "product/index");
     }
 
+    /**
+     * get all the data for the method of the class
+     *
+     * @param req the request data from the client
+     * @return the parameters for the rendering.
+     */
     private Map<String, Object> getCommonParams(Request req) {
         CartController cartController = CartController.getInstance();
         SupplierDao productSupplierDataStore = SupplierDaoJdbc.getInstance();

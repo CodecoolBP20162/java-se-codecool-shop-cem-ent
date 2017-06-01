@@ -8,7 +8,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
+/**
+ * This class handles the Database connection.
+ * you need to have a file at "src/main/resources/connection.properties"
+ * containing the da the host, the database name, your name and your password.
+ */
 public class DbConnection {
 
     public Connection getConnection() throws IOException, SQLException {
