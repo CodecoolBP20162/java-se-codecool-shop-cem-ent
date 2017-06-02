@@ -8,6 +8,11 @@
 <div th:replace="menu :: copy"></div>
 <div class="container" id="login" style="width:auto; margin:0 auto;">
 <h1>Login page</h1>
+
+    <div id="wrong-credentials" class="col-lg-4">
+        <p class="wrong-credentials" th:text="${credentials != null} ? ${credentials} : ''"></p>
+    </div>
+
 <form taction="/login" method="post">
     <label for="username">Username</label>:
     <input type="text" id="username" name="username" autofocus="autofocus" /> <br />

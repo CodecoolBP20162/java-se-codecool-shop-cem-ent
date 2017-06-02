@@ -58,12 +58,18 @@ public class LoginController {
     public ModelAndView renderLoginPost(Request req, Response res){
         UserDaoJdbc userDataStore = UserDaoJdbc.getInstance();
         User user = userDataStore.find(req.queryParams("username"));
+        if (user == null){
+            return renderWrongUser(req, res);
+        }
         if (req.queryParams("username").equals(user.getName())){
             if (req.queryParams("password").equals(user.getPassword())) {
                 req.session(true);
                 req.session().attribute("user", req.queryParams("username"));
                 req.session().attribute("type", user.getRank());
                 res.redirect("/");
+            }
+            else{
+                return renderWrongUser(req, res);
             }
         }
         return renderLogin(req, res);
@@ -80,5 +86,17 @@ public class LoginController {
         res.redirect("/");
         // this line is needed as a void return is not accepted.
         return renderLogin(req, res);
+    }
+
+    /**
+     * wrong username
+     * @return returns the modeland view object
+     */
+    public ModelAndView renderWrongUser(Request req, Response res) {
+        UserDaoJdbc userDataStore = UserDaoJdbc.getInstance();
+        Map<String, Object> params = new HashMap<>();
+        params.put("users", userDataStore.getAll());
+        params.put("credentials", "Wrong user credentials!");
+        return new ModelAndView(params, "login");
     }
 }
